@@ -1,3 +1,11 @@
+-- safely insert into events
+INSERT into got_events (name, location, season, episode, summary)
+VALUES (?, ?, ?, ?, ?);
+
+-- select event columns with location name
+select e.id, e.name, l.name as location, season, episode, summary from got_events e
+left join got_locations l on l.id = e.location;
+
 -- insert new location SAFELY
 INSERT into got_locations (name, region, continent_id) 
 VALUES (?,?,?)
