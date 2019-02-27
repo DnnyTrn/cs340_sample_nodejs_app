@@ -1,4 +1,66 @@
 <title>Characters</title>
+
+    {{!-- form temporary? --}} 
+    <form action="/characters" method="post" id="insertCharacter" class='border'>
+        <div class="form-group">
+            <label for='fname'>First Name</label>
+            <input id='fname' class='form-control' type="text" name="fname" maxlength="30" placeholder="Aegon">
+        </div>
+    
+        <div class="form-group">
+            <label for='lname'>Last Name</label>
+            <input class='form-control' type="text" name="lname" maxlength="30" placeholder="Targaryen">
+        </div>
+    
+        <div class="form-group">
+            <label for='house'>House</label>
+            <select name="house_id" class='custom-select'>
+                {{#each houses}}
+                <option value="{{house_id}}">{{house_name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label for='origin'>Origin</label>
+            <select name='location_id' class='custom-select'>
+                {{#each locations}}
+                <option value="{{id}}">{{name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label>Weapon</label>
+            <input class='form-control' type="text" name="weapon" maxlength="30">
+        </div>
+    
+        <div class="form-group">
+            <label>Species</label>
+            <select name="species_id" class='custom-select'>
+                {{#each species}}
+                <option value="{{species_id}}">{{species_name}}</option>
+                {{/each}}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select name='status' class='custom-select'>
+                <option value='alive'>alive</option>
+                <option value='dead'>dead</option>
+                <option value='Wight'>Wight</option>
+            </select>
+        </div>
+
+        <div class="form-group"><label>Organization</label>
+            <input class='form-control' type="text" name="organization" maxlength="30">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+
     <!-- table --> 
     <div class="mt-1 w-100">
         <table class="table table-dark table-striped table-bordered table-hover">
@@ -48,4 +110,78 @@
                 {{/each}}
             </tbody>
         </table>
+    </div>
+
+
+    <!-- Edit Modal CHARACTER -->
+    <div id="editModal" class="modal fade">
+        <div class="modal-dialog modal-confirm ">
+            <div class="modal-content">
+
+                <div class="modal-body text-left">
+
+                        {{!-- CHARACTER form starts here --}}
+                        <form action="/characters" method="post" id="insertCharacter">
+                            <div class="form-group">
+                                <label for='fname'>First Name</label>
+                                <input id='fname' class='form-control' type="text" name="fname" maxlength="30" placeholder="Aegon">
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for='lname'>Last Name</label>
+                                <input class='form-control' type="text" name="lname" maxlength="30" placeholder="Targaryen">
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for='house'>House</label>
+                                <select name="house_id" class='custom-select'>
+                                    {{#each houses}}
+                                    <option value="{{house_id}}">{{house_name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for='origin'>Origin</label>
+                                <select name='location_id' class='custom-select'>
+                                    {{#each locations}}
+                                    <option value="{{id}}">{{name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        
+                            <div class="form-group">
+                                <label>Weapon</label>
+                                <input class='form-control' type="text" name="weapon" maxlength="30">
+                            </div>
+                        
+                            <div class="form-group">
+                                <label>Species</label>
+                                <select name="species_id" class='custom-select'>
+                                    {{#each species}}
+                                    <option value="{{species_id}}">{{species_name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select name='status' class='custom-select'>
+                                    <option value='alive'>alive</option>
+                                    <option value='dead'>dead</option>
+                                    <option value='Wight'>Wight</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Organization</label>
+                                <input class='form-control' type="text" name="organization" maxlength="30">
+                            </div>
+                        </form>
+                        
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </div>
     </div>
