@@ -1,0 +1,127 @@
+{{!-- temporary table --}}
+<form action="/events" method="post" id="insertLocation">
+    <div class="form-group">
+        <label for='event_name'>Event Name</label>
+        <input class='form-control' type="text" name="name" maxlength="30" required>
+    </div>
+
+    <!-- temporary -->
+    <div class="form-group">
+        <label for='location'>Location</label>
+        <select name="location" id="location">
+            {{#each locations}}
+            <option value={{id}}>{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Season</label>
+        <input class='form-control' type="number" name="season" maxlength="30">
+    </div>
+
+    <div class="form-group">
+        <label>Episode</label>
+        <input class='form-control' type="number" name="episode" maxlength="30">
+    </div>
+
+    <div class="form-group"><label>Summary</label>
+        <textarea class='form-control' name="summary" id="summary" rows="3" maxlength='3500'></textarea>
+    </div>
+
+
+        <button class="btn btn-success">Submit</button>
+
+</form>
+
+<!-- table -->
+<div class="mt-1 w-100">
+    <table class="table table-dark table-striped table-bordered table-hover">
+        <!-- row headers -->
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Season</th>
+                <th scope="col">Episode</th>
+                <th scope="col">Summary</th>
+                <th class='text-center'>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each events}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{location}}</td>
+                <td>{{season}}</td>
+                <td>{{episode}}</td>
+                <td>{{summary}}</td>
+
+                <!-- delete & edit buttons -->
+                <td>
+                    <div class='d-flex justify-content-around'>
+                        <!-- delete button -->
+                        <div data-toggle='tooltip' title='Delete' data-placement='top'>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                <i class="far fa-trash-alt "></i>
+                            </button>
+                        </div>
+
+                        <!-- edit button -->
+                        <div data-toggle='tooltip' title='Edit' data-placement="top">
+                            <button class="btn btn-success btn-sm editBtn" data-toggle='modal' data-target='#editModal'>
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+           {{/each}}
+
+        </tbody>
+    </table>
+</div>
+
+<!-- Edit Modal HTML -->
+<div id="editModal" class="modal fade">
+    <div class="modal-dialog modal-confirm ">
+        <div class="modal-content">
+
+            <div class="modal-body text-left">
+                <form action="/character" method="post" id="insertCharacter">
+                    <div class="form-group">
+                        <label for='event_name'>Event Name</label>
+                        <input class='form-control' type="text" name="event_name" maxlength="30" required>
+                    </div>
+
+                    <!-- temporary -->
+                    <div class="form-group">
+                        <label for='location'>Location</label>
+                        <input class='form-control' type="text" name="location" maxlength="30" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Season</label>
+                        <input class='form-control' type="number" name="season" maxlength="30">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Episode</label>
+                        <input class='form-control' type="number" name="Episode" maxlength="30">
+                    </div>
+
+                    <div class="form-group"><label>Summary</label>
+                        <textarea class='form-control' name="summary" id="summary" rows="3"></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-success">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
