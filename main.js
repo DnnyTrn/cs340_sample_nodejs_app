@@ -20,6 +20,9 @@ app.use('/people_certs', require('./people_certs.js'));
 app.use('/people', require('./people.js'));
 app.use('/', express.static('public'));
 
+// GOT routes!
+app.use('/characters', require('./characters.js'));
+
 app.use(function(req,res){
   res.status(404);
   res.render('404');
