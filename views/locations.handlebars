@@ -1,0 +1,111 @@
+<title>Locations</title>
+
+
+{{!-- temporary form --}}
+<form action="/locations" method="post" id="insertLocations">
+    <div class="form-group">
+        <label for='name'>Location Name</label>
+        <input class='form-control' type="text" name="name" maxlength="30" required>
+    </div>
+
+    <div class="form-group">
+        <label for='region'>Region Name</label>
+        <input class='form-control' type="text" name="region" maxlength="30" placeholder="">
+    </div>
+
+    <div class="form-group">
+        <label>Continent</label>
+        <select name="continent_id" class='custom-select'>
+            {{#each continents}}
+            <option value="{{id}}">{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <button class="btn btn-primary">Submit</button>
+</form> 
+
+
+
+<!-- table -->
+<div class="mt-1 w-100">
+    <table class="table table-dark table-striped table-bordered table-hover">
+        <!-- row headers -->
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Region</th>
+                <th scope="col">Continent</th>
+                <th class='text-center'>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each locations}}
+                <tr>
+                    <td>{{name}}</td>
+                    <td>{{region}}</td>
+                    <td>{{continent}}</td>
+
+                    <!-- delete & edit buttons -->
+                    <td>
+                        <div class='d-flex justify-content-center'>
+                            <!-- delete button -->
+                            <div data-toggle='tooltip' title='Delete' data-placement='top'>
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="far fa-trash-alt "></i>
+                                </button>
+                            </div>
+
+                            <!-- edit button -->
+                            <div data-toggle='tooltip' title='Edit' data-placement="top">
+                                <button class="btn btn-success btn-sm editBtn" data-toggle='modal' data-target='#editModal'>
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {{/each}}
+            
+        </tbody>
+    </table>
+</div>
+
+
+
+<!-- Edit Modal HTML -->
+<div id="editModal" class="modal fade">
+    <div class="modal-dialog modal-confirm ">
+        <div class="modal-content">
+
+            <div class="modal-body text-left">
+                <form action="/locations" method="post" id="insertLocations">
+                    <div class="form-group">
+                        <label for='name'>Location Name</label>
+                        <input class='form-control' type="text" name="name" maxlength="30" required>
+                    </div>
+                
+                    <div class="form-group">
+                        <label for='region'>Region Name</label>
+                        <input class='form-control' type="text" name="region" maxlength="30" placeholder="">
+                    </div>
+                
+                    <div class="form-group">
+                        <label>Continent</label>
+                        <select name="continent_id" class='custom-select'>
+                            {{#each continents}}
+                            <option value="{{id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-success">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
