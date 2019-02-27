@@ -1,3 +1,14 @@
+-- insert new location SAFELY
+INSERT into got_locations (name, region, continent_id) 
+VALUES (?,?,?)
+
+-- select id, name from got_continents
+select id, name from got_continents
+
+-- select all locations with their column names
+select l.id, l.name as name, region, c.name as continent from got_locations l
+left join got_continents c on c.id = l.continent_id;
+
 -- getHouses() - select all houses for get request
 SELECT h.id as house_id, name as house_name, sigil, c.fname, c.lname , hs.status FROM got_house h
 left join got_characters c on c.id = h.head

@@ -23,6 +23,7 @@ app.use('/', express.static('public'));
 // GOT routes!
 app.use('/characters', require('./characters.js'));
 app.use('/houses', require('./houses.js'));
+app.use('/locations', require('./locations.js'));
 
 app.use(function(req,res){
   res.status(404);
