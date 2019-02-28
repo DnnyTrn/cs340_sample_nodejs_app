@@ -1,0 +1,110 @@
+ <head>
+    <title>Update-Character</title>
+    <style>
+        form#insertCharacter {
+            border: 5px;
+            border-style: solid;
+            border-color: black;
+            padding: 10px;
+            background-color: white;
+            opacity: 0.9;
+        }
+        form#assocCharEvent {
+            border: 5px;
+            border-style: solid;
+            border-color: black;
+            padding: 10px;
+            background-color: white;
+            opacity: 0.9;
+            display: inline-block;
+        }
+
+        body {
+            background: url("http://i.imgur.com/HEXg8Pc.jpg");
+            background-size: 95%;
+        }
+
+        div.centerThis {
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+    <form action="/characters" method="put" id="update-character">
+        <div class="form-group">
+            <label for='fname'>First Name</label>
+            <input id='fname' class='form-control' type="text" name="fname" maxlength="30" value="{{character.fname}}"required>
+        </div>
+    
+        <div class="form-group">
+            <label for='lname'>Last Name</label>
+            <input class='form-control' type="text" name="lname" maxlength="30" value='{{character.lname}}'>
+        </div>
+    
+        <div class="form-group">
+            <label for='house'>House</label>
+            <select name="house_id" class='custom-select' id='house-selector'>
+                {{#each houses}}
+                <option value="{{house_id}}">{{house_name}}</option>
+                {{/each}}
+                <option value=''>none</option>
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label for='origin'>Origin</label>
+            <select name='location_id' class='custom-select' id='location-selector'>
+                {{#each locations}}
+                <option value="{{id}}">{{name}}</option>
+                {{/each}}
+                <option value=''>none</option>
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label>Weapon</label>
+            <input class='form-control' type="text" name="weapon" maxlength="30" value="{{character.weapon}}">
+        </div>
+    
+        <div class="form-group">
+            <label>Species</label>
+            <select name="species_id" class='custom-select' id='species-selector'>
+                {{#each species}}
+                <option value="{{species_id}}">{{species_name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select name='status' class='custom-select' id='status-selector'>
+                <option value='alive'>alive</option>
+                <option value='dead'>dead</option>
+                <option value='Wight'>Wight</option>
+            </select>
+        </div>
+    
+        <div class="form-group"><label>Organization</label>
+            <input class='form-control' type="text" name="organization"  value='{{character.organization}}'>
+        </div>
+    
+        <div class="modal-footer">
+            <button class="btn btn-primary" onclick="updateCharacter({{character.id}})">Submit</button>
+        </div>
+    </form>
+</div>
+
+<script defer>
+    selectHouse({{ character.house_id }});
+    selectLocation({{ character.location }});
+    selectSpecies({{ character.species_id }});
+    selectStatus('{{ character.status }}');
+</script>
+
+
+
+
+
+
