@@ -28,6 +28,16 @@ SET time_zone = "+00:00";
 -- Table structure for table `got_characters`
 --
 
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS `got_characters`;
+DROP TABLE IF EXISTS `got_continents`;
+DROP TABLE IF EXISTS `got_events`;
+DROP TABLE IF EXISTS `got_events_characters`;
+DROP TABLE IF EXISTS `got_house`;
+DROP TABLE IF EXISTS `got_house_status`;
+DROP TABLE IF EXISTS `got_locations`;
+DROP TABLE IF EXISTS `got_species`;
+
 CREATE TABLE `got_characters` (
   `id` int(11) NOT NULL,
   `fname` varchar(30) NOT NULL,
@@ -45,49 +55,17 @@ CREATE TABLE `got_characters` (
 --
 
 INSERT INTO `got_characters` (`id`, `fname`, `lname`, `house_id`, `origin`, `weapon`, `status`, `organization`, `species_id`) VALUES
-(1, 'Jon', 'Snow', 4, NULL, 'Longclaw', 'alive', 'none', 1),
+(1, 'Jon', 'Snow', 4, NULL, 'Longclaw', 'alive', NULL, 1),
 (41, 'Eddard', 'Stark', 2, 3, 'Ice', 'dead', NULL, 1),
 (42, 'Hodor', NULL, NULL, NULL, NULL, 'dead', NULL, 1),
 (43, 'Arya', 'Stark', 2, NULL, 'Valyrian steel dagger', 'alive', NULL, 1),
-(44, 'Tommen', 'Baratheon', 3, NULL, NULL, 'dead', 'Seven Kingdoms', 1),
-(45, 'Cersei', 'Lannister', 4, NULL, NULL, 'alive', 'Seven Kingdoms', 1),
+(2, 'Tommen', 'Baratheon', 3, NULL, NULL, 'dead', 'Seven Kingdoms', 1),
+(3, 'Cersei', 'Lannister', 4, NULL, NULL, 'alive', 'Seven Kingdoms', 1),
 (46, 'Drogon', NULL, NULL, NULL, NULL, 'Wight', NULL, 3),
 (47, 'Night King', NULL, NULL, NULL, NULL, 'alive', NULL, 2),
 (48, 'Leaf', NULL, NULL, NULL, NULL, 'dead', NULL, 5),
 (49, 'Pyat', 'Pree', NULL, 8, NULL, 'dead', 'Warlocks of Quarth', 6),
-(50, 'Robb', 'Stark', 2, 3, NULL, 'dead', NULL, 1),
-(51, 'aegon', 'targeryon', 4, 6, 'toothpick', 'Wight', 'brothers with banners', 3),
-(52, '', NULL, 2, 3, '', 'alive', '', 5),
-(60, 'missing fname', NULL, 2, 3, NULL, 'alive', NULL, 5),
-(65, 'Tommen', 'Baratheon', 3, NULL, NULL, 'dead', 'Seven Kingdoms', 1),
-(80, 'Jon2', 'Snow', 2, NULL, 'Longclaw', 'alive', 'Night\'s Watch', 1),
-(81, 'Jon2', 'Snow', 2, NULL, 'Longclaw', 'alive', 'Night\'s Watch', 1),
-(82, 'Night King', NULL, NULL, NULL, NULL, 'alive', NULL, 2),
-(83, 'Hodor2', NULL, NULL, NULL, NULL, 'dead', NULL, 1),
-(96, 'Drogon', NULL, NULL, NULL, NULL, 'Wight', NULL, 3),
-(97, 'Drogon', NULL, NULL, NULL, NULL, 'Wight', NULL, 3),
-(98, 'Drogonaaaa', NULL, NULL, NULL, NULL, 'Wight', NULL, 3),
-(99, 'Tommen', 'Baratheon', NULL, NULL, NULL, 'dead', 'Seven Kingdoms', 1),
-(100, 'Jon', 'Snoww', NULL, NULL, 'Longclaw', 'alive', 'Night\'s Watch', 1),
-(101, '3333', NULL, NULL, NULL, NULL, 'alive', '3', 5),
-(102, '3333', NULL, NULL, NULL, NULL, 'alive', '3', 5),
-(103, 'Jonp', 'Snow', 2, NULL, 'Longclaw', 'alive', 'Night\'s Watch', 1),
-(104, 'Eddard', 'Stark', 2, NULL, 'Ice', 'dead', NULL, 1),
-(105, 'Jon', 'Snoww', NULL, NULL, 'Longclaw', 'alive', 'Night\'s Watch', 1),
-(106, '3333', NULL, NULL, NULL, NULL, 'alive', '3', 5),
-(107, 'Drogon', NULL, NULL, NULL, NULL, 'Wight', NULL, 3),
-(108, 'Hodor', NULL, NULL, NULL, NULL, 'dead', NULL, 1),
-(109, 'Leaf', NULL, NULL, 18, NULL, 'dead', NULL, 5),
-(110, 'Hodor', NULL, NULL, NULL, NULL, 'dead', NULL, 1),
-(111, 'Arya', 'Stark', 2, NULL, 'Valyrian steel dagger', 'alive', NULL, 1),
-(112, 'Jon', 'Snow', 2, NULL, 'Longclawz', 'alive', 'Night\'s Watch', 1),
-(113, 'Jon', 'Snow', 2, NULL, 'Longclaw', 'alive', 'Night\'s Watch', 1),
-(114, 'Jon', 'Snow', 2, NULL, 'Longclaw', 'alive', 'Night\'s Watch', 1),
-(115, 'Cersei', 'Lannister', 4, NULL, NULL, 'alive', 'Seven Kingdoms', 1),
-(116, 'Arya', 'Stark', 3, NULL, 'Valyrian steel dagger', 'alive', NULL, 1),
-(117, 'missing required field', NULL, 2, 3, NULL, 'alive', NULL, 5),
-(118, 'Arya', 'Stark', 2, NULL, 'Valyrian steel dagger', 'alive', NULL, 1),
-(119, 'Arya', 'Stark', 2, NULL, 'Valyrian steel dagger', 'alive', NULL, 1);
+(50, 'Robb', 'Stark', 2, 3, NULL, 'dead', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -398,6 +376,7 @@ ALTER TABLE `got_house`
 ALTER TABLE `got_locations`
   ADD CONSTRAINT `got_locations_ibfk_1` FOREIGN KEY (`continent_id`) REFERENCES `got_continents` (`id`) ON DELETE SET NULL;
 COMMIT;
+SET FOREIGN_KEY_CHECKS = 1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
