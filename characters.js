@@ -148,9 +148,12 @@ module.exports = function () {
         var mysql = req.app.get('mysql');
         var sql = 'INSERT INTO got_characters (fname, lname, house_id, origin, weapon, species_id, status, organization) VALUES (?,?,?,?,?,?,?,?)';
         var inserts = [req.body.fname, req.body.lname, req.body.house_id, req.body.location_id, req.body.weapon, req.body.species_id, req.body.status, req.body.organization];
+        
+        convertEmptyStringToNull(inserts);
+
         sql = mysql.pool.query(sql, inserts, function(error, results, field){
             if (error) {
-                console.log(JSON.stringify(error))
+                console.log(error)
                 res.write(JSON.stringify(error));
                 res.end();
             }
@@ -159,6 +162,24 @@ module.exports = function () {
             }
         })
     });
+
+    String.prototype.isEmpty = function () {
+        return (this.length === 0 || !this.trim());
+    };
+
+    function convertEmptyStringToNull(inserts){
+        inserts.forEach((element, index)=>{
+            if(element.isEmpty()){
+                inserts[index] = null;
+            }
+
+            // if user puts in a bunch of white spaces for the name set fname so app doesn't crash
+            if (inserts[0] === null) {
+                inserts[0] = 'missing fname';
+            }
+        });
+    }
+
     // /*Display all people from a given homeworld. Requires web based javascript to delete users with AJAX*/
     // router.get('/filter/:homeworld', function (req, res) {
     //     var callbackCount = 0;
