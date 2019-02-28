@@ -3,6 +3,7 @@ module.exports = function () {
     let router = express.Router();
 
     router.get('/', (req,res)=>{
+        console.log('locations get');
         var callbackCount = 0;
         var context = {};
         var mysql = req.app.get('mysql');
@@ -20,6 +21,7 @@ module.exports = function () {
     });
 
     router.post('/', (req,res)=>{
+        console.log('locations post');
         console.log(req.body);
         let mysql = req.app.get('mysql');
         let sql = 'INSERT into got_locations (name, region, continent_id) VALUES (?,?,?)';
@@ -64,6 +66,83 @@ module.exports = function () {
             complete();
         })
 
+    }
+    // * * * * UPDATE function * * * *
+    function getALocation(res, mysql, context, id, complete){
+        var sql = 'SELECT id, name, region, continent_id FROM got_locations WHERE id =?';
+        var inserts = [id];
+        mysql.pool.query(sql, inserts, function(err, results, fields){
+            if (err){
+                res.write(JSON.stringify(err));
+                res.end();
+            }
+            context.location = results[0];
+            complete();
+        })
+    }
+    // /* Display one location for the specific purpose of updating people */
+    router.get('/:id', function(req, res){
+        console.log('router.get :id');
+        callbackCount = 0;
+        var context = {};
+        context.jsscripts = ['selectcontinent.js', 'updatelocation.js'];
+        var mysql = req.app.get('mysql');
+
+        getALocation(res, mysql, context, req.params.id, complete);
+        getContinents(res, mysql, context, complete);
+
+        function complete(){
+            callbackCount++;
+            if (callbackCount >= 2) {
+                res.render('update-location', context);
+            }
+        }
+    });
+
+    router.put('/:id', function (req, res) {
+        var mysql = req.app.get('mysql'); 
+        console.log('put/:id');
+        console.log(req.body)
+        console.log(req.params.id)
+        var sql = "UPDATE got_locations SET name = ?, region = ?, continent_id = ? WHERE id = ?";
+        var inserts = [
+            req.body.name,
+            req.body.region,
+            req.body.continent_id,
+            req.params.id
+        ];
+        
+        convertEmptyStringToNull(inserts);
+        sql = mysql.pool.query(sql, inserts, function (error, results, fields) {
+
+            if (error) {
+                console.log(error)
+                res.write(JSON.stringify(error));
+                res.end();
+            } else {
+                res.status(200);
+                res.end();
+            }
+        });
+    });
+
+    // returns true if string length is 0
+    String.prototype.isEmpty = function () {
+        return (this.length === 0 || !this.trim());
+    };
+
+    // changes empty strings to value of null
+    function convertEmptyStringToNull(inserts) {
+        inserts.forEach((element, index) => {
+            if (element.isEmpty()) {
+                inserts[index] = null;
+            }
+
+            // if user puts in a bunch of white spaces for required field change it to string instead of null
+            if (inserts[0] === null) {
+                inserts[0] = 'missing required field';
+            }
+        });
     }
 
     return router;

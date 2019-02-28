@@ -40,7 +40,7 @@ SELECT id, name FROM got_house
 
 -- get all location_IDs and names to populate the origin dropdown in character/house/event insert form
 -- getLocations()
-SELECT id, name FROM got_locations
+SELECT id, name, region, continent_id FROM got_locations
 
 -- get all character IDs and names to populate the current head dropdown in location insert form
 SELECT id, name FROM got_characters
@@ -54,7 +54,7 @@ SELECT e.name, c.fname, c.lname FROM got_events_characters ec INNER JOIN got_eve
 --get a single (character/house/location/event) data for the update form
 SELECT id, fname, lname, house_id, origin, weapon, species_id, status, organization FROM got_characters WHERE id = 52
 SELECT id, name, status, head FROM got_house WHERE id = :house_row_selected_on_website_homepage
-SELECT id, name, region, continent FROM got_location WHERE id = :location_row_selected_on_website_homepage
+SELECT id, name, region, continent_id FROM got_locations WHERE id = ?
 SELECT event_id, location, season, episode, summary FROM got_events WHERE event_id = :event_row_selected_on_website_homepage
 
 --associate a character with an event
@@ -80,13 +80,13 @@ WHERE id = ?;
 UPDATE got_house SET name = :nameInput, status = :status_from_dropdown_Input, head = :head_id_from_dropdown_Input WHERE id = :house_ID_from_the_update_form
 
 -- update a location's data based on submission of the Update Location form
-UPDATE got_locations SET name = :nameInput, region = :regionInput, continent = :continent_from_dropdown_input WHERE id = :location_ID_from_the_update_form
+UPDATE got_locations SET name = ?, region = ?, continent_id = ? WHERE id = ?;
 
 -- update a event's data based on submission of the Update Event form
 UPDATE got_events SET name = :nameInput, location = :location_id_from_dropdown_input, season = :seasonInput, epsiode = :episodeInput, summary = :summaryInput WHERE id = :event_ID_from_the_update_form
 
 -- delete a character/house/location/event
-DELETE FROM got_characters WHERE  id = :character_ID_selected_from_database_homepage
+DELETE FROM got_characters WHERE id = ?
 DELETE FROM got_house WHERE id = :house_ID_selected_from_database_homepage
 DELETE FROM got_locations WHERE id = :location_ID_selected_from_database_homepage
 DELETE FROM got_events WHERE id = :event_ID_selected_from_database_homepage
