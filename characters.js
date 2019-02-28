@@ -32,70 +32,70 @@ module.exports = function () {
             complete();
         })
     }
-    // function getPlanets(res, mysql, context, complete) {
-    //     mysql.pool.query("SELECT planet_id as id, name FROM bsg_planets", function (error, results, fields) {
-    //         if (error) {
-    //             res.write(JSON.stringify(error));
-    //             res.end();
-    //         }
-    //         context.planets = results;
-            // complete();
-    //     });
-    // }
+    function getPlanets(res, mysql, context, complete) {
+        mysql.pool.query("SELECT planet_id as id, name FROM bsg_planets", function (error, results, fields) {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.planets = results;
+            complete();
+        });
+    }
 
-    // function getPeople(res, mysql, context, complete) {
-    //     mysql.pool.query("SELECT bsg_people.character_id as id, fname, lname, bsg_planets.name AS homeworld, age FROM bsg_people INNER JOIN bsg_planets ON homeworld = bsg_planets.planet_id", function (error, results, fields) {
-    //         if (error) {
-    //             res.write(JSON.stringify(error));
-    //             res.end();
-    //         }
-    //         context.people = results;
-    //         complete();
-    //     });
-    // }
+    function getPeople(res, mysql, context, complete) {
+        mysql.pool.query("SELECT bsg_people.character_id as id, fname, lname, bsg_planets.name AS homeworld, age FROM bsg_people INNER JOIN bsg_planets ON homeworld = bsg_planets.planet_id", function (error, results, fields) {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.people = results;
+            complete();
+        });
+    }
 
-    // function getPeoplebyHomeworld(req, res, mysql, context, complete) {
-    //     var query = "SELECT bsg_people.character_id as id, fname, lname, bsg_planets.name AS homeworld, age FROM bsg_people INNER JOIN bsg_planets ON homeworld = bsg_planets.planet_id WHERE bsg_people.homeworld = ?";
-    //     console.log(req.params)
-    //     var inserts = [req.params.homeworld]
-    //     mysql.pool.query(query, inserts, function (error, results, fields) {
-    //         if (error) {
-    //             res.write(JSON.stringify(error));
-    //             res.end();
-    //         }
-    //         context.people = results;
-    //         complete();
-    //     });
-    // }
+    function getPeoplebyHomeworld(req, res, mysql, context, complete) {
+        var query = "SELECT bsg_people.character_id as id, fname, lname, bsg_planets.name AS homeworld, age FROM bsg_people INNER JOIN bsg_planets ON homeworld = bsg_planets.planet_id WHERE bsg_people.homeworld = ?";
+        console.log(req.params)
+        var inserts = [req.params.homeworld]
+        mysql.pool.query(query, inserts, function (error, results, fields) {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.people = results;
+            complete();
+        });
+    }
 
-    // /* Find people whose fname starts with a given string in the req */
-    // function getPeopleWithNameLike(req, res, mysql, context, complete) {
-    //     //sanitize the input as well as include the % character
-    //     var query = "SELECT bsg_people.character_id as id, fname, lname, bsg_planets.name AS homeworld, age FROM bsg_people INNER JOIN bsg_planets ON homeworld = bsg_planets.planet_id WHERE bsg_people.fname LIKE " + mysql.pool.escape(req.params.s + '%');
-    //     console.log(query)
+    /* Find people whose fname starts with a given string in the req */
+    function getPeopleWithNameLike(req, res, mysql, context, complete) {
+        //sanitize the input as well as include the % character
+        var query = "SELECT bsg_people.character_id as id, fname, lname, bsg_planets.name AS homeworld, age FROM bsg_people INNER JOIN bsg_planets ON homeworld = bsg_planets.planet_id WHERE bsg_people.fname LIKE " + mysql.pool.escape(req.params.s + '%');
+        console.log(query)
 
-    //     mysql.pool.query(query, function (error, results, fields) {
-    //         if (error) {
-    //             res.write(JSON.stringify(error));
-    //             res.end();
-    //         }
-    //         context.people = results;
-    //         complete();
-    //     });
-    // }
+        mysql.pool.query(query, function (error, results, fields) {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.people = results;
+            complete();
+        });
+    }
 
-    // function getPerson(res, mysql, context, id, complete) {
-    //     var sql = "SELECT character_id as id, fname, lname, homeworld, age FROM bsg_people WHERE character_id = ?";
-    //     var inserts = [id];
-    //     mysql.pool.query(sql, inserts, function (error, results, fields) {
-    //         if (error) {
-    //             res.write(JSON.stringify(error));
-    //             res.end();
-    //         }
-    //         context.person = results[0];
-    //         complete();
-    //     });
-    // }
+    function getPerson(res, mysql, context, id, complete) {
+        var sql = "SELECT character_id as id, fname, lname, homeworld, age FROM bsg_people WHERE character_id = ?";
+        var inserts = [id];
+        mysql.pool.query(sql, inserts, function (error, results, fields) {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.person = results[0];
+            complete();
+        });
+    }
 
     // populates houses form in the Edit button
     function getHouses(res, mysql, context, complete){
@@ -125,6 +125,7 @@ module.exports = function () {
     /*Display all people. Requires web based javascript to delete users with AJAX*/
 
     router.get('/', function (req, res) {
+        console.log('get/')
         var callbackCount = 0;  
         var context = {};
         // context.jsscripts = ["deleteperson.js", "filterpeople.js", "searchpeople.js"];
@@ -144,6 +145,7 @@ module.exports = function () {
     });
 
     router.post('/', function (req, res) {
+        console.log('/post')
         console.log(req.body)
         var mysql = req.app.get('mysql');
         var sql = 'INSERT INTO got_characters (fname, lname, house_id, origin, weapon, species_id, status, organization) VALUES (?,?,?,?,?,?,?,?)';
@@ -212,9 +214,40 @@ module.exports = function () {
     //         }
     //     }
     // });
+    function getACharacter(res, mysql, context, id, complete){
+        var sql = 'SELECT id, fname, lname, house_id, origin, weapon, species_id, status, organization FROM got_characters WHERE id = ?';
+        var inserts = [id];
+        mysql.pool.query(sql, inserts, function (error, results, fields) {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.character = results[0];
+            complete();
+        });
 
+    }
     // /* Display one person for the specific purpose of updating people */
+    router.get('/:id', function (req, res) {
+        callbackCount = 0;
+        var context = {};
+        context.jsscripts = ['selectedhouse.js', 'selectedlocation.js', 'selectedspecies.js', 'selectedstatus.js', 'updatecharacter.js'];
+        var mysql = req.app.get('mysql');
 
+        getACharacter(res, mysql, context, req.params.id, complete);
+        getLocations(res, mysql, context, complete);
+        getSpecies(res, mysql, context, complete);
+        getHouses(res, mysql, context, complete);
+
+        function complete() {
+            callbackCount++;
+            if (callbackCount >= 4) {
+                res.render('update-character', context);
+            }
+
+        }
+    });
+    
     // router.get('/:id', function (req, res) {
     //     callbackCount = 0;
     //     var context = {};
@@ -252,6 +285,41 @@ module.exports = function () {
 
     // /* The URI that update data is sent to in order to update a person */
 
+    
+    router.put('/:id', function (req, res) {
+        var mysql = req.app.get('mysql');
+        console.log('put/:id')
+        console.log(req.body)
+        console.log(req.params.id)
+
+
+        var sql = 'UPDATE got_characters SET fname = ?, lname = ?, house_id = ?, origin = ?, weapon = ?, status = ?, organization = ?, species_id = ? WHERE id = ?';
+        var inserts = [
+            req.body.fname,
+            req.body.lname,
+            req.body.house_id,
+            req.body.location_id,
+            req.body.weapon,
+            req.body.status,
+            req.body.organization,
+            req.body.species_id,
+            req.params.id
+        ];
+
+        convertEmptyStringToNull(inserts);
+
+
+        sql = mysql.pool.query(sql, inserts, function (error, results, fields) {
+            if (error) {
+                console.log(error)
+                res.write(JSON.stringify(error));
+                res.end();
+            } else {
+                res.status(200);
+                res.end();
+            }
+        });
+    });
     // router.put('/:id', function (req, res) {
     //     var mysql = req.app.get('mysql');
     //     console.log(req.body)

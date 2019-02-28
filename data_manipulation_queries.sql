@@ -52,7 +52,7 @@ SELECT got_characters.id, fname, lname, got_house.name AS house_id FROM got_char
 SELECT e.name, c.fname, c.lname FROM got_events_characters ec INNER JOIN got_events e ON e.id = ec.event_id INNER JOIN got_characters c ON c.id = ec.character_id
 
 --get a single (character/house/location/event) data for the update form
-SELECT id, fname, lname, house_id, origin, weapon, species, status, organization FROM got_characters WHERE id = :character_row_selected_on_website_homepage
+SELECT id, fname, lname, house_id, origin, weapon, species_id, status, organization FROM got_characters WHERE id = 52
 SELECT id, name, status, head FROM got_house WHERE id = :house_row_selected_on_website_homepage
 SELECT id, name, region, continent FROM got_location WHERE id = :location_row_selected_on_website_homepage
 SELECT event_id, location, season, episode, summary FROM got_events WHERE event_id = :event_row_selected_on_website_homepage
@@ -73,7 +73,8 @@ INSERT INTO got_locations (name, region, continent) VALUES (:nameInput, :regionI
 INSERT INTO got_events (name, location, season, episode, summary) VALUES (:nameInput, :location_id_from_dropdown_input, :seasonInput, :episodeInput, :summaryInput)
 
 -- update a character's data based on submission of the Update Character form
-UPDATE got_characters SET fname = :fnameInput, lname= :lnameInput, house = :house_id_from_dropdown_Input, origin = :origin_id_from_dropdown_Input, weapon = :weaponInput, species = :species_from_dropdown_Input, status = :status_from_dropdown_Input, organization = :organizationInput WHERE id = :character_ID_from_the_update_form
+UPDATE got_characters SET fname = ?, lname = ?, house_id = ?, origin = ?, weapon = ?, status = ?, organization = ?, species_id = ? 
+WHERE id = ?;
 
 -- update a houses's data based on submission of the Update House form
 UPDATE got_house SET name = :nameInput, status = :status_from_dropdown_Input, head = :head_id_from_dropdown_Input WHERE id = :house_ID_from_the_update_form
