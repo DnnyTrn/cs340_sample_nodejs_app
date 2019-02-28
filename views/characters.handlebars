@@ -16,8 +16,9 @@
             <label for='house'>House</label>
             <select name="house_id" class='custom-select'>
                 {{#each houses}}
-                <option value="{{house_id}}">{{house_name}}</option>
+                    <option value="{{house_id}}">{{house_name}}</option>
                 {{/each}}
+                    <option value=''>none</option>
             </select>
         </div>
     
@@ -25,8 +26,9 @@
             <label for='origin'>Origin</label>
             <select name='location_id' class='custom-select'>
                 {{#each locations}}
-                <option value="{{id}}">{{name}}</option>
+                    <option value="{{id}}">{{name}}</option>
                 {{/each}}
+                <option value=''>none</option>
             </select>
         </div>
     
@@ -40,7 +42,7 @@
             <select name="species_id" class='custom-select'>
                 {{#each species}}
                 <option value="{{species_id}}">{{species_name}}</option>
-                {{/each}}
+                {{/each}}                
             </select>
         </div>
 
