@@ -24,9 +24,10 @@
 
 
 
-    <div class="container " >
+    <div class="container" id='insertLocation'>
     <form action="/locations" method="put" id='update-location'>
         <div class="form-group">
+            <h2 class='text-center' >Location Update Form</h2>
             <label for='name'>Location Name</label>
             <input class='form-control' type="text" name="name" maxlength="30" value='{{location.name}}' required>
         </div>

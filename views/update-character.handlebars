@@ -1,7 +1,7 @@
  <head>
     <title>Update-Character</title>
     <style>
-        form#insertCharacter {
+        #insertCharacter {
             border: 5px;
             border-style: solid;
             border-color: black;
@@ -31,8 +31,9 @@
 
 </head>
 
-    <div class="container">
+    <div class="container" id="insertCharacter">
     <form action="/characters" method="put" id="update-character">
+        <h2 class='text-center'>Character Update Form</h2>
         <div class="form-group">
             <label for='fname'>First Name</label>
             <input id='fname' class='form-control' type="text" name="fname" maxlength="30" value="{{character.fname}}"required>

@@ -1,8 +1,5 @@
 <title>Characters</title>
 
-    {{!-- form temporary? --}} 
-    
-
     <!-- table --> 
     <div class="mt-1 w-100">
         <table class="table table-dark table-striped table-bordered table-hover">
@@ -21,7 +18,7 @@
             </thead>
             <tbody>
                 {{#each characters}}
-                
+                         
                 <tr>
                     <td>{{fname}}</td>
                     <td>{{lname}}</td>
@@ -36,7 +33,7 @@
                         <div class='d-flex justify-content-around'>
                             <!-- delete button -->
                             <div data-toggle='tooltip' title='Delete' data-placement='top'>
-                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+                                <button type="button" class="btn btn-danger btn-sm" onclick='deleteCharacter({{id}})'>
                                     <i class="far fa-trash-alt "></i>
                                 </button>
                             </div>
@@ -50,9 +47,7 @@
                         </div>
                     </td>
                 </tr>
-                   
                 {{/each}}
-             
             </tbody>
         </table>
     </div>
@@ -135,3 +130,5 @@
         </div>
     </div>
 </div>
+
+
