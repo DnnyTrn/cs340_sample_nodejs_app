@@ -55,7 +55,7 @@ SELECT e.name, c.fname, c.lname FROM got_events_characters ec INNER JOIN got_eve
 SELECT id, fname, lname, house_id, origin, weapon, species_id, status, organization FROM got_characters WHERE id = 52
 SELECT id, name, status, head FROM got_house WHERE id = :house_row_selected_on_website_homepage
 SELECT id, name, region, continent_id FROM got_locations WHERE id = ?
-SELECT event_id, location, season, episode, summary FROM got_events WHERE event_id = :event_row_selected_on_website_homepage
+select name, location, season, episode, summary from got_events where id = ?
 
 --associate a character with an event
 INSERT INTO got_events_characters (event_id, character_id) VALUES (:character_ID_from_dropdown, :event_id_from_dropdown)
@@ -83,7 +83,7 @@ UPDATE got_house SET name = :nameInput, status = :status_from_dropdown_Input, he
 UPDATE got_locations SET name = ?, region = ?, continent_id = ? WHERE id = ?;
 
 -- update a event's data based on submission of the Update Event form
-UPDATE got_events SET name = :nameInput, location = :location_id_from_dropdown_input, season = :seasonInput, epsiode = :episodeInput, summary = :summaryInput WHERE id = :event_ID_from_the_update_form
+UPDATE got_events SET name = ?, location = ?, season = ?, episode = ?, summary = ? WHERE id = ?
 
 -- delete a character/house/location/event
 DELETE FROM got_characters WHERE id = ?
@@ -93,3 +93,4 @@ DELETE FROM got_events WHERE id = :event_ID_selected_from_database_homepage
 
 --Dis-associate an event from a person
 DELETE FROM got_events_characters WHERE character_id = :character_id_selected_from_character_and_events_list AND event_id = :events_id_selected_from_character_and_events_list
+
