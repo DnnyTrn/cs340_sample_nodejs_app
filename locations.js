@@ -26,6 +26,7 @@ module.exports = function () {
         let mysql = req.app.get('mysql');
         let sql = 'INSERT into got_locations (name, region, continent_id) VALUES (?,?,?)';
         let inserts = [req.body.name, req.body.region, req.body.continent_id];
+        convertEmptyStringToNull(inserts);
         sql = mysql.pool.query(sql, inserts, (err,results,fields)=>{
             if(err){
                 console.log(err);

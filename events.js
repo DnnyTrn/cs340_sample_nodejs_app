@@ -15,14 +15,15 @@ module.exports = function(){
                 res.render('events', context);
             }
         }
-    });
+    })
 
     router.post('/', (req,res)=>{
         let reqBody = req.body;
         console.log(reqBody);
         let sql = 'INSERT into got_events (name, location, season, episode, summary) VALUES (?, ?, ?, ?, ?)';
         let inserts = [reqBody.name, reqBody.location, reqBody.season, reqBody.episode, reqBody.summary];
-        req.app.get('mysql').pool.query(sql, inserts, (err,results,fields)=>{
+        convertEmptyStringToNull(inserts);
+        sql = req.app.get('mysql').pool.query(sql, inserts, (err,results,fields)=>{
             if(err){
                 console.log(err)
                 res.write(JSON.stringify(err));
