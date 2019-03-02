@@ -19,7 +19,7 @@
             <tbody>
                 {{#each characters}}
                          
-                <tr>
+                <tr id={{id}}>
                     <td>{{fname}}</td>
                     <td>{{lname}}</td>
                     <td>{{house_name}}</td>
@@ -53,24 +53,23 @@
     </div>
 
 
-<!-- Edit Modal CHARACTER -->
+<!-- ADD Modal CHARACTER when the user clicks the add button on main.handlebars line 72-->
 <div id="editModal" class="modal fade">
     <div class="modal-dialog modal-confirm ">
         <div class="modal-content">
-
             <div class="modal-body text-left">
-
-                {{!-- CHARACTER form starts here --}}
-
+               
+{{!-- CHARACTER form starts here --}}
             <form action="/characters" method="post" id="insertCharacter" >
                 <div class="form-group">
                     <label for='fname'>First Name</label>
-                    <input id='fname' class='form-control' type="text" name="fname" maxlength="30" placeholder="Aegon" required>
+                    <input class='form-control' type="text" name="fname" maxlength="30" placeholder="Aegon" required>
+                    {{!-- <input id='fname' class='form-control' type="text" name="fname" maxlength="30" placeholder="Aegon" required> --}}
                 </div>
             
                 <div class="form-group">
                     <label for='lname'>Last Name</label>
-                    <input class='form-control' type="text" name="lname" maxlength="30" placeholder="Targaryen">
+                    <input id='lname' class='form-control' type="text" name="lname" maxlength="30" placeholder="Targaryen">
                 </div>
             
                 <div class="form-group">
@@ -82,7 +81,6 @@
                         <option value=''>none</option>
                     </select>
                 </div>
-            
                 <div class="form-group">
                     <label for='origin'>Origin</label>
                     <select name='location_id' class='custom-select'>
@@ -122,13 +120,47 @@
             
                 <div class="modal-footer">
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                    <button class="btn btn-success">Submit</button>
+                    {{!-- <button class="btn btn-primary" >Submit</button> --}}
+                    <button class="btn btn-success" onclick="add()" data-dismiss="modal">Submit</button>
                 </div>
-                </form>
+            </form>
             </div>
-
         </div>
     </div>
 </div>
 
+{{!-- handlebars script used for ajax POST add character in script.js --}}
+<script id="characterTemplate" type='text/x-handlebars-template'>
+    <tbody>
+    \{{#each characters}}
+    <tr id=\{{id}}>
+        <td>\{{fname}}</td>
+        <td>\{{lname}}</td>
+        <td>\{{house_name}}</td>
+        <td>\{{location_name}}</td>
+        <td>\{{weapon}}</td>
+        <td>\{{species_name}}</td>
+        <td>\{{status}}</td>
+        <td>\{{organization}}</td>
+        <!-- delete & edit buttons -->
+        <td>
+            <div class='d-flex justify-content-around'>
+                <!-- delete button -->
+                <div data-toggle='tooltip' title='Delete' data-placement='top'>
+                    <button type="button" class="btn btn-danger btn-sm" onclick='deleteCharacter(\{{id}})'>
+                        <i class="far fa-trash-alt "></i>
+                    </button>
+                </div>
 
+                <!-- edit button -->
+                <div data-toggle='tooltip' title='Edit' data-placement="top">
+                    <a class="btn btn-success btn-sm editBtn" href="/characters/\{{id}}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </div>
+            </div>
+        </td>
+    </tr>
+    \{{/each}}
+    </tbody>
+</script>
