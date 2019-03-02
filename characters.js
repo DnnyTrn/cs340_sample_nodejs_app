@@ -7,7 +7,7 @@ module.exports = function () {
         let queryString = 'SELECT c.id, fname, lname, h.name as house_name, l.name as location_name, weapon, status, organization, s.name as species_name FROM got_characters c'
         + ' left join got_house h on h.id = c.house_id'
         + ' left join got_locations l on l.id = c.origin'
-        + ' left join got_species s on s.id = c.species_id';
+        + ' left join got_species s on s.id = c.species_id ORDER BY c.id DESC';
         mysql.pool.query(queryString, function(error, results, fields){
 
             if (error) {
@@ -15,6 +15,7 @@ module.exports = function () {
                 // make sure to use your dbcon credentials!
                 res.end();
             }
+
             context.characters = results;
             complete();
         });
@@ -59,6 +60,19 @@ module.exports = function () {
             complete();
         })
     }
+    // populate locations form in the Edit button
+    function getColumnNames(res, mysql, context, complete){
+        let queryString = 'describe got_characters';
+        mysql.pool.query(queryString, (err, results, fields)=>{
+            if(err){
+                res.write(JSON.stringify(err));
+                res.end();
+            }
+            console.log(results.Field);
+            context.columns = results;
+            complete();
+        })
+    }
     /*Display all people. Requires web based javascript to delete users with AJAX*/
 
     router.get('/', function (req, res) {
@@ -81,6 +95,7 @@ module.exports = function () {
         }
     });
 
+    // this is the route when the user submits a form using the green add button
     router.post('/', function (req, res) {
         console.log('/post')
         console.log(req.body)
@@ -90,14 +105,26 @@ module.exports = function () {
         
         convertEmptyStringToNull(inserts);
 
-        sql = mysql.pool.query(sql, inserts, function(error, results, field){
+        sql = mysql.pool.query(sql, inserts, function(error, results, fields){
             if (error) {
                 console.log(error)
                 res.write(JSON.stringify(error));
                 res.end();
             }
             else{
-                res.redirect('/characters');
+                var callbackCount = 0;
+                var context = {};
+
+                //creates a context.characters object with column names 
+                getCharacters(res, mysql, context, complete);
+
+                function complete() {
+                    callbackCount++;
+                    if (callbackCount >= 1) {  //adding more get functions increase this number!!
+                        res.send(context);
+                    }
+                }
+
             }
         })
     });
