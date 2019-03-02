@@ -60,19 +60,7 @@ module.exports = function () {
             complete();
         })
     }
-    // populate locations form in the Edit button
-    function getColumnNames(res, mysql, context, complete){
-        let queryString = 'describe got_characters';
-        mysql.pool.query(queryString, (err, results, fields)=>{
-            if(err){
-                res.write(JSON.stringify(err));
-                res.end();
-            }
-            console.log(results.Field);
-            context.columns = results;
-            complete();
-        })
-    }
+
     /*Display all people. Requires web based javascript to delete users with AJAX*/
 
     router.get('/', function (req, res) {

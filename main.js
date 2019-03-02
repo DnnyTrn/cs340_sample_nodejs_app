@@ -25,7 +25,8 @@ app.use('/characters', require('./characters.js'));
 app.use('/houses', require('./houses.js'));
 app.use('/locations', require('./locations.js'));
 app.use('/events', require('./events.js'));
-app.use('/table', require('./table.js'));
+// app.use('/table', require('./table.js')); test route
+
 app.use(function(req,res){
   res.status(404);
   res.render('404');
