@@ -1,3 +1,4 @@
+// this function manages the tooltips for the add and delete buttons 
 $(function () {
     $('[data-toggle="tooltip"]').on('click', function () {
         $(this).tooltip('hide')
@@ -18,7 +19,7 @@ function add() {
 
                 // create a new tbody with the new row using Handlebars script
                 console.log(result);
-                var rawTemplate = document.getElementById('characterTemplate').innerHTML;
+                let rawTemplate = $("script[type='text/x-handlebars-template']").html();
                 var compiledTemplate = Handlebars.compile(rawTemplate);
                 var generatedHTML = compiledTemplate(result);
 
@@ -31,3 +32,20 @@ function add() {
     )
 };
 
+// ajax function that accesses the delete request. 
+//parameter id is the id from the <tr> row
+function deleteRow(id) {
+    $(document).ready(
+        $.ajax({
+            url: window.location.pathname,
+            type: 'DELETE',
+            data: {id},
+            success: (result, success, xhr)=>{
+                console.log('delete row with id: ' + id);
+                $('#' + id).fadeOut(500, function(){
+                    $(this).remove();
+                })
+            }
+        })
+    )
+};

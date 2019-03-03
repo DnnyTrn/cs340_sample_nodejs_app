@@ -102,3 +102,12 @@ th{
     font-size: 1.1rem;
     white-space: nowrap;
 }
+
+tr td:first-child{
+    white-space: nowrap;
+}
+
+tr td:last-child{
+    width: 1px;
+    white-space: nowrap;
+}
