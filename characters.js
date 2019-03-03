@@ -34,7 +34,6 @@ module.exports = function () {
         })
     }
     
-
     // populates houses form in the Edit button
     function getHouses(res, mysql, context, complete){
         let queryString = 'SELECT id as house_id, name as house_name from got_house';
@@ -67,7 +66,6 @@ module.exports = function () {
         console.log('get/')
         var callbackCount = 0;  
         var context = {};
-        context.jsscripts = ["deleteGOT.js"];
         var mysql = req.app.get('mysql');
 
         getLocations(res, mysql, context, complete);
@@ -221,14 +219,12 @@ module.exports = function () {
         });
     });
 
-
     /* Route to delete a person, simply returns a 202 upon success. Ajax will handle this. */
-
-    router.delete('/:id', function (req, res) {
-        console.log('delete id: ' + JSON.stringify(req.params));
+    router.delete('/', function (req, res) {
+        console.log('delete id: ' + req.body.id); 
         var mysql = req.app.get('mysql');
         var sql = "DELETE FROM got_characters WHERE id = ?";
-        var inserts = [req.params.id];
+        var inserts = [req.body.id];
         sql = mysql.pool.query(sql, inserts, function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));

@@ -34,14 +34,24 @@ module.exports = function () {
                 res.end();
             }
             else{
-                res.redirect('/locations');
+                // res.redirect('/locations');
+                var callbackCount = 0;
+                var context = {};
+                getLocations(res, mysql, context, complete);
+
+                function complete() {
+                    callbackCount++;
+                    if (callbackCount >= 1) {  //adding more get functions increase this number!!
+                        res.send(context);
+                    }
+                }
             }
         })
     })
     // populate locations form in the Edit button
     function getLocations(res, mysql, context, complete) {
         let queryString = 'select l.id, l.name as name, region, c.name as continent from got_locations l' 
-            + ' left join got_continents c on c.id = l.continent_id';
+            + ' left join got_continents c on c.id = l.continent_id ORDER BY ID DESC';
 
         mysql.pool.query(queryString, (err, results, fields) => {
             if (err) {
@@ -126,6 +136,24 @@ module.exports = function () {
             }
         });
     });
+
+/* Route to delete a person, simply returns a 202 upon success. Ajax will handle this. */
+
+    router.delete('/', (req,res)=>{
+        console.log('delete id ');
+        console.log(req.body);
+        let sql = 'DELETE FROM got_locations where id = ?';
+        let inserts = [req.body.id];
+        req.app.get('mysql').pool.query(sql,inserts,(err,results,fields)=> {
+            if(err){
+                res.write(JSON.stringify(err));
+                res.status(400);
+                res.end();
+            }else{
+                res.status(202).end();
+            }
+        })
+    })
 
     // returns true if string length is 0
     String.prototype.isEmpty = function () {

@@ -1,6 +1,7 @@
 module.exports = function(){
     let express = require('express');
     let router = express.Router();
+
     router.get('/', (req,res)=>{
         var callbackCount = 0;
         var context = {};
@@ -30,14 +31,27 @@ module.exports = function(){
                 res.end();
             }
             else{
-                res.redirect('/events')
+                // res.redirect('/events') 
+                var callbackCount = 0;
+                var context = {};
+                var mysql = req.app.get('mysql');
+
+                // get functions
+                getEvents(res, mysql, context, complete);
+
+                function complete() {
+                    callbackCount++;
+                    if (callbackCount >= 1) {  //adding more get functions increase this number!!
+                        res.send(context);
+                    }
+                }
             }
         })
     })
 
     function getEvents(res, mysql, context, complete){
         let queryString = 'select e.id, e.name, l.name as location, season, episode, summary from got_events e'
-        + ' left join got_locations l on l.id = e.location';
+        + ' left join got_locations l on l.id = e.location ORDER by e.id DESC';
         mysql.pool.query(queryString, (err, results, fields)=>{
 
             if(err){
@@ -76,7 +90,7 @@ module.exports = function(){
             complete();
         })
     }
-    // /* Display one person for the specific purpose of updating people */
+    // /* Display one event for the specific purpose of updating an event */
     router.get('/:id', (req,res)=>{
         callbackCount = 0;
         var context = {};
@@ -142,5 +156,24 @@ module.exports = function(){
             }
         });
     }
+
+
+    router.delete('/', (req,res)=>{
+        console.log('delete id = ' + req.body.id);
+
+        let sql = 'DELETE FROM got_events where id = ?';
+        let inserts = [req.body.id];
+
+        req.app.get('mysql').pool.query(sql, inserts, (err,results,fields)=>{
+            if(err){
+                console.log(err);
+                res.write(JSON.stringify(err));
+                res.status(400);
+                res.end();
+            }   else {
+                res.status(202).end();
+            }
+        });
+    })
     return router;
 }();
