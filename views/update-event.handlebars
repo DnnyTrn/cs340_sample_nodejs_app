@@ -36,13 +36,35 @@
             </div>
         
             <div class="form-group">
-                <label>Season</label>
-                <input class='form-control' type="number" name="season" maxlength="30" value="{{event.season}}">
+                <label for='season'>Season</label>
+                {{!-- <input class='form-control' type="number" name="season" maxlength="30">
+                --}}
+                <select id='season' name="season" class='form-control'>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
             </div>
-        
+            
             <div class="form-group">
-                <label>Episode</label>
-                <input class='form-control' type="number" name="episode" maxlength="30" value="{{event.episode}}">
+                <label for='episode'>Episode</label>
+                <select id='episode' name="episode" class='form-control'>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
             </div>
         
             <div class="form-group"><label>Summary</label>

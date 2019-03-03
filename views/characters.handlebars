@@ -17,9 +17,8 @@
                     <th class='text-center'>actions</th>
                 </tr>
             </thead>
-            <tbody id='table-body'>
-                {{#each characters}}
-                         
+            <tbody>
+                {{#each characters}}      
                 <tr id={{id}}>
                     <td>{{fname}}</td>
                     <td>{{lname}}</td>
@@ -34,7 +33,7 @@
                         <div class='d-flex justify-content-around'>
                             <!-- delete button -->
                             <div data-toggle='tooltip' title='Delete' data-placement='top'>
-                                <button type="button" class="btn btn-danger btn-sm" onclick='deleteCharacter({{id}})'>
+                                <button type="button" class="btn btn-danger btn-sm" onclick='deleteRow({{id}})'>
                                     <i class="far fa-trash-alt "></i>
                                 </button>
                             </div>
@@ -62,17 +61,17 @@
                
 {{!-- CHARACTER form starts here --}}
             <form action="/characters" method="post" id="insertCharacter" >
-
+                {{!-- fname --}}
                 <div class="form-group">
                     <label for='fname'>First Name</label>
                     <input class='form-control' type="text" name="fname" maxlength="30" placeholder="Aegon" required>
                 </div>
-            
+            {{!-- lname --}}
                 <div class="form-group">
                     <label for='lname'>Last Name</label>
                     <input id='lname' class='form-control' type="text" name="lname" maxlength="30" placeholder="Targaryen">
                 </div>
-            
+            {{!-- house --}}
                 <div class="form-group">
                     <label for='house'>House</label>
                     <select name="house_id" class='custom-select'>
@@ -82,6 +81,7 @@
                         <option value=''>none</option>
                     </select>
                 </div>
+            {{!-- origin location_id locations--}}
                 <div class="form-group">
                     <label for='origin'>Origin</label>
                     <select name='location_id' class='custom-select'>
@@ -91,12 +91,12 @@
                         <option value=''>none</option>
                     </select>
                 </div>
-            
+            {{!-- weapon --}}
                 <div class="form-group">
                     <label>Weapon</label>
                     <input class='form-control' type="text" name="weapon" maxlength="30">
                 </div>
-            
+            {{!-- species_id --}}
                 <div class="form-group">
                     <label>Species</label>
                     <select name="species_id" class='custom-select'>
@@ -105,7 +105,7 @@
                         {{/each}}
                     </select>
                 </div>
-            
+                {{!-- status --}}
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select name='status' class='custom-select'>
@@ -114,18 +114,14 @@
                         <option value='Wight'>Wight</option>
                     </select>
                 </div>
-            
+            {{!-- organization --}}
                 <div class="form-group"><label>Organization</label>
                     <input class='form-control' type="text" name="organization" maxlength="30">
                 </div>
-            
+            {{!-- submit button! --}}
                 <div class="modal-footer">
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-
                     <button class="btn btn-success" onclick="add()" data-dismiss="modal">Submit</button>
-
-
-
                 </div>
             </form>
             </div>
@@ -151,7 +147,7 @@
             <div class='d-flex justify-content-around'>
                 <!-- delete button -->
                 <div data-toggle='tooltip' title='Delete' data-placement='top'>
-                    <button type="button" class="btn btn-danger btn-sm" onclick='deleteCharacter(\{{id}})'>
+                    <button type="button" class="btn btn-danger btn-sm" onclick='deleteRow(\{{id}})'>
                         <i class="far fa-trash-alt "></i>
                     </button>
                 </div>

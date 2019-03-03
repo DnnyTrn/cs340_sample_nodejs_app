@@ -1,10 +1,10 @@
 <title>Locations</title>
 
-
 <!-- table -->
 <div class="mt-1 w-100">
-    <table class="table table-dark table-striped table-bordered table-hover">
+    <table class="table table-dark table-striped table-bordered table-hover table-sm">
         <!-- row headers -->
+        <caption>List of Locations</caption>
         <thead>
             <tr>
                 <th scope="col">Name</th>
@@ -15,17 +15,17 @@
         </thead>
         <tbody>
             {{#each locations}}
-                <tr>
+                <tr id={{id}}>
                     <td>{{name}}</td>
                     <td>{{region}}</td>
                     <td>{{continent}}</td>
 
                     <!-- delete & edit buttons -->
-                    <td>
+                    <td> 
                         <div class='d-flex justify-content-center'>
                             <!-- delete button -->
                             <div data-toggle='tooltip' title='Delete' data-placement='top'>
-                                <button type="button" class="btn btn-danger btn-sm ">
+                            <button type="button" class="btn btn-danger btn-sm " onclick='deleteRow({{id}})'>
                                     <i class="far fa-trash-alt "></i>
                                 </button>
                             </div>
@@ -40,7 +40,6 @@
                     </td>
                 </tr>
             {{/each}}
-            
         </tbody>
     </table>
 </div>
@@ -51,19 +50,21 @@
 <div id="editModal" class="modal fade">
     <div class="modal-dialog modal-confirm ">
         <div class="modal-content">
-
             <div class="modal-body text-left">
+
+{{!-- LOCATION form --}}
                 <form action="/locations" method="post" id="insertLocations">
+                    {{!-- name --}}
                     <div class="form-group">
                         <label for='name'>Location Name</label>
                         <input class='form-control' type="text" name="name" maxlength="30" required>
                     </div>
-                
+                {{!-- region --}}
                     <div class="form-group">
                         <label for='region'>Region Name</label>
                         <input class='form-control' type="text" name="region" maxlength="30" placeholder="">
                     </div>
-                
+                {{!-- continent_id --}}
                     <div class="form-group">
                         <label>Continent</label>
                         <select name="continent_id" class='custom-select'>
@@ -72,14 +73,44 @@
                             {{/each}}
                         </select>
                     </div>
-
+            {{!-- submit button! --}}
                     <div class="modal-footer">
                         <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-success">Submit</button>
+                        <button class="btn btn-success" onclick='add()' data-dismiss="modal">Submit</button>
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
+
+<script type='text/x-handlebars-template'>
+        <tbody>
+            \{{#each locations}}
+            <tr id=\{{id}}>
+                <td>\{{name}}</td>
+                <td>\{{region}}</td>
+                <td>\{{continent}}</td>
+        
+                <!-- delete & edit buttons -->
+                <td>
+                    <div class='d-flex justify-content-center'>
+                        <!-- delete button -->
+                        <div data-toggle='tooltip' title='Delete' data-placement='top'>
+                            <button type="button" class="btn btn-danger btn-sm " onclick='deleteRow(\{{id}})'>
+                                <i class="far fa-trash-alt "></i>
+                            </button>
+                        </div>
+        
+                        <!-- edit button -->
+                        <div data-toggle='tooltip' title='Edit' data-placement="top">
+                            <a class="btn btn-success btn-sm editBtn" href='/locations/\{{id}}'>
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            \{{/each}}
+        </tbody>
+</script>
