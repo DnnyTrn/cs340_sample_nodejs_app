@@ -1,7 +1,7 @@
 module.exports = function () {
     var express = require('express');
     var router = express.Router();
-
+    console.log('testing file')
     //populates the character table for /characters
     function getCharacters(res, mysql, context, complete) {
         let queryString = 'SELECT c.id, fname, lname, h.name as house_name, l.name as location_name, weapon, status, organization, s.name as species_name FROM got_characters c'
