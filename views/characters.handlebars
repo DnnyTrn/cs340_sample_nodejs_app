@@ -1,129 +1,129 @@
 <title>Characters</title>
 
-    <!-- table --> 
-    <div class="mt-1 w-100">
-        <table class="table table-dark table-striped table-bordered table-hover table-sm">
-                <caption>List of Characters</caption>
-            <thead>
-                <tr>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">House</th>
-                    <th scope="col">Origin</th>
-                    <th scope="col">Weapon</th>
-                    <th scope="col">Species</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Organization</th>
-                    <th class='text-center'>actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each characters}}      
-                <tr id={{id}}>
-                    <td>{{fname}}</td>
-                    <td>{{lname}}</td>
-                    <td>{{house_name}}</td>
-                    <td>{{location_name}}</td>
-                    <td>{{weapon}}</td>
-                    <td>{{species_name}}</td>
-                    <td>{{status}}</td>
-                    <td>{{organization}}</td>
-                    <!-- delete & edit buttons -->
-                    <td>
-                        <div class='d-flex justify-content-around'>
-                            <!-- delete button -->
-                            <div data-toggle='tooltip' title='Delete' data-placement='top'>
-                                <button type="button" class="btn btn-danger btn-sm" onclick='deleteRow({{id}})'>
-                                    <i class="far fa-trash-alt "></i>
-                                </button>
-                            </div>
-
-                            <!-- edit button -->
-                            <div data-toggle='tooltip' title='Edit' data-placement="top">
-                                <a class="btn btn-success btn-sm editBtn" href='/characters/{{id}}'>
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                            </div>
+<!-- table -->
+<div class="mt-1 w-100">
+    <table class="table table-dark table-striped table-bordered table-hover table-sm">
+        <thead>
+            <tr>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">House</th>
+                <th scope="col">Origin</th>
+                <th scope="col">Weapon</th>
+                <th scope="col">Species</th>
+                <th scope="col">Status</th>
+                <th scope="col">Organization</th>
+                <th class='text-center'>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each characters}}
+            <tr id={{id}}>
+                <td>{{fname}}</td>
+                <td>{{lname}}</td>
+                <td>{{house_name}}</td>
+                <td>{{location_name}}</td>
+                <td>{{weapon}}</td>
+                <td>{{species_name}}</td>
+                <td>{{status}}</td>
+                <td>{{organization}}</td>
+                <!-- delete & edit buttons -->
+                <td>
+                    <div class='d-flex justify-content-around'>
+                        <!-- delete button -->
+                        <div data-toggle='tooltip' title='Delete' data-placement='top'>
+                            <button type="button" class="btn btn-danger btn-sm" onclick='deleteRow({{id}})'>
+                                <i class="far fa-trash-alt "></i>
+                            </button>
                         </div>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </div>
+
+                        <!-- edit button -->
+                        <div data-toggle='tooltip' title='Edit' data-placement="top">
+                            <a class="btn btn-success btn-sm editBtn" href='/characters/{{id}}'>
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 
 
-<!-- ADD Modal CHARACTER when the user clicks the add button on main.handlebars line 72-->
+<!-- ADD FORM CHARACTER when the user clicks the add button on main.handlebars line 72-->
 <div id="editModal" class="modal fade">
     <div class="modal-dialog modal-confirm ">
         <div class="modal-content">
             <div class="modal-body text-left">
-               
-{{!-- CHARACTER form starts here --}}
-            <form action="/characters" method="post" id="insertCharacter" >
-                {{!-- fname --}}
-                <div class="form-group">
-                    <label for='fname'>First Name</label>
-                    <input class='form-control' type="text" name="fname" maxlength="30" placeholder="Aegon" required>
-                </div>
-            {{!-- lname --}}
-                <div class="form-group">
-                    <label for='lname'>Last Name</label>
-                    <input id='lname' class='form-control' type="text" name="lname" maxlength="30" placeholder="Targaryen">
-                </div>
-            {{!-- house --}}
-                <div class="form-group">
-                    <label for='house'>House</label>
-                    <select name="house_id" class='custom-select'>
-                        {{#each houses}}
-                        <option value="{{house_id}}">{{house_name}}</option>
-                        {{/each}}
-                        <option value=''>none</option>
-                    </select>
-                </div>
-            {{!-- origin location_id locations--}}
-                <div class="form-group">
-                    <label for='origin'>Origin</label>
-                    <select name='location_id' class='custom-select'>
-                        {{#each locations}}
-                        <option value="{{id}}">{{name}}</option>
-                        {{/each}}
-                        <option value=''>none</option>
-                    </select>
-                </div>
-            {{!-- weapon --}}
-                <div class="form-group">
-                    <label>Weapon</label>
-                    <input class='form-control' type="text" name="weapon" maxlength="30">
-                </div>
-            {{!-- species_id --}}
-                <div class="form-group">
-                    <label>Species</label>
-                    <select name="species_id" class='custom-select'>
-                        {{#each species}}
-                        <option value="{{species_id}}">{{species_name}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-                {{!-- status --}}
-                <div class="form-group">
-                    <label for="status">Status</label>
-                    <select name='status' class='custom-select'>
-                        <option value='alive'>alive</option>
-                        <option value='dead'>dead</option>
-                        <option value='Wight'>Wight</option>
-                    </select>
-                </div>
-            {{!-- organization --}}
-                <div class="form-group"><label>Organization</label>
-                    <input class='form-control' type="text" name="organization" maxlength="30">
-                </div>
-            {{!-- submit button! --}}
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                    <button class="btn btn-success" onclick="add()" data-dismiss="modal">Submit</button>
-                </div>
-            </form>
+
+                {{!-- CHARACTER form starts here --}}
+                <form action="/characters" method="post" id="add-row">
+                    {{!-- fname --}}
+                    <div class="form-group">
+                        <label for='fname'>First Name</label>
+                        <input class='form-control' type="text" name="fname" minlength='1' pattern='[A-Za-z]' maxlength="30"
+                            placeholder="Aegon" required>
+                    </div>
+                    {{!-- lname --}}
+                    <div class="form-group">
+                        <label for='lname'>Last Name</label>
+                        <input id='lname' class='form-control' type="text" name="lname" maxlength="30" placeholder="Targaryen">
+                    </div>
+                    {{!-- house --}}
+                    <div class="form-group">
+                        <label for='house'>House</label>
+                        <select name="house_id" class='custom-select'>
+                            {{#each houses}}
+                            <option value="{{house_id}}">{{house_name}}</option>
+                            {{/each}}
+                            <option value=''>none</option>
+                        </select>
+                    </div>
+                    {{!-- origin location_id locations--}}
+                    <div class="form-group">
+                        <label for='origin'>Origin</label>
+                        <select name='location_id' class='custom-select'>
+                            {{#each locations}}
+                            <option value="{{id}}">{{name}}</option>
+                            {{/each}}
+                            <option value=''>none</option>
+                        </select>
+                    </div>
+                    {{!-- weapon --}}
+                    <div class="form-group">
+                        <label>Weapon</label>
+                        <input class='form-control' type="text" name="weapon" maxlength="30">
+                    </div>
+                    {{!-- species_id --}}
+                    <div class="form-group">
+                        <label>Species</label>
+                        <select name="species_id" class='custom-select'>
+                            {{#each species}}
+                            <option value="{{species_id}}">{{species_name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    {{!-- status --}}
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select name='status' class='custom-select'>
+                            <option value='alive'>alive</option>
+                            <option value='dead'>dead</option>
+                            <option value='Wight'>Wight</option>
+                        </select>
+                    </div>
+                    {{!-- organization --}}
+                    <div class="form-group"><label>Organization</label>
+                        <input class='form-control' type="text" name="organization" maxlength="30">
+                    </div>
+                    {{!-- submit button! --}}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-success" onclick="add()" data-dismiss="modal">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
