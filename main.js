@@ -25,7 +25,8 @@ app.use('/characters', require('./characters.js'));
 app.use('/houses', require('./houses.js'));
 app.use('/locations', require('./locations.js'));
 app.use('/events', require('./events.js'));
-// app.use('/table', require('./table.js')); test route
+// test page
+app.use('/table', require('./table.js')); 
 
 app.use(function(req,res){
   res.status(404);
@@ -41,3 +42,7 @@ app.use(function(err, req, res, next){
 app.listen(app.get('port'), function(){
   console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
 });
+
+app.get('*', (req,res)=>{
+	res.send('you are lost');
+})
