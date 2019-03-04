@@ -111,3 +111,9 @@ tr td:last-child{
     width: 1px;
     white-space: nowrap;
 }
+
+.footer{
+    /* position: absolute; */
+    bottom: 0;
+    width: 100%;
+}
