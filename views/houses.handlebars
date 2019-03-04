@@ -1,3 +1,107 @@
 {{!-- temporary form (same code as edit modal)--}}
 {{!-- table --}}
 {{!-- edit form modal--}}
+
+ <!-- table -->
+<div class="mt-1 w-100">
+    <table class="table table-dark table-striped table-bordered table-hover">
+        <!-- row headers -->
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Sigil</th>
+                <th scope="col">Head</th>
+                <th scope="col">Status</th>
+                <th class='text-center'>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each houses}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{sigil}}</td>
+                <td>{{head}}</td>
+                <td>{{status_id}}</td>
+            <!-- delete & edit buttons -->
+        <td>
+            <div class='d-flex justify-content-around'>
+                <!-- delete button -->
+                <div data-toggle='tooltip' title='Delete' data-placement='top'>
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+                        <i class="far fa-trash-alt "></i>
+                    </button>
+                </div>
+
+                <!-- edit button -->
+                <div data-toggle='tooltip' title='Edit' data-placement="top">
+                    <button class="btn btn-success btn-sm editBtn" data-toggle='modal' data-target='#editModal'>
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+            </div>
+        </td>
+        </tr>
+        {{/each}}
+    </table>
+</div>
+
+<!-- Edit Modal HTML -->
+<div id="editModal" class="modal fade">
+    <div class="modal-dialog modal-confirm ">
+        <div class="modal-content">
+
+            <div class="modal-body text-left">
+
+                {{!-- HOUSE form starts here --}}
+
+                <form action="/houses" method="post" id="insertHouse">
+                    <div class="form-group">
+                        <label for='house_name'>Name</label>
+                        <input class='form-control' type="text" name="house_name" maxlength="30" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for='sigil'>Sigil</label>
+                        <input class='form-control' type="text" name="sigil" maxlength="100" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for='head'>Head First Name</label>
+                        <input class='form-control' type="text" name="firstName" class='custom-select'>
+                        {{#each characters}}
+                        <option value="{{id}}">{{fname}}</option>
+                        {{/each}}
+                        <option value=''>none</option>
+                    </div>
+
+                    <div class="form-group">
+                        <label for='head'>Head Last Name</label>
+                        <input class='form-control' type="text" name="lastName" class='custom-select'>
+                        {{#each characters}}
+                        <option value="{{id}}">{{lname}}</option>
+                        {{/each}}
+                        <option value=''>none</option>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <input class='form-control' type="text" name="weapon" maxlength="30">
+                    </div>
+
+                    <div class="form-group">
+                    <label>Species</label>
+                    <select name="species_id" class='custom-select'>
+                        {{#each status}}
+                        <option value="{{status_id}}">{{status}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
