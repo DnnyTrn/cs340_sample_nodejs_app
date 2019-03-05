@@ -174,6 +174,39 @@ module.exports = function () {
         });
     }
 
+    router.get('/search/:name', (req,res)=>{
+        console.log('location req.params.name: ' + req.params.name);
+        var callbackCount = 0;
+        var context = {};
+        var mysql = req.app.get('mysql');
+
+        getLocationsLike(req, res, mysql, context, complete);
+
+        function complete(){
+            callbackCount++;
+            if(callbackCount >= 1){
+                res.send(context);
+            }
+        }
+    })
+
+    function getLocationsLike(req, res, mysql, context, complete){
+        let sql = 'select l.id, l.name, region, c.name as continent from got_locations l'
+        +' left join got_continents c on c.id = l.continent_id'
+        +' where l.name like ' + mysql.pool.escape(req.params.name + '%')
+        +' order by l.id DESC';
+
+        mysql.pool.query(sql, (err, results, fields)=>{
+            if(err){
+                console.log(err);
+                res.write(JSON.stringify(err));
+                res.end();
+            }
+
+            context.locations = results;
+            complete();
+        })
+    }
     return router;
 }();
 
