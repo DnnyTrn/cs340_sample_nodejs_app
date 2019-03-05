@@ -57,6 +57,15 @@ SELECT id, name, status, head FROM got_house WHERE id = :house_row_selected_on_w
 SELECT id, name, region, continent_id FROM got_locations WHERE id = ?
 select name, location, season, episode, summary from got_events where id = ?
 
+-- select all charcters where fname = ?
+SELECT c.id, fname, lname, h.name as house_name, 
+l.name as location_name, weapon, status, organization, 
+s.name as species_name FROM got_characters c 
+left join got_house h on h.id = c.house_id 
+left join got_locations l on l.id = c.origin 
+left join got_species s on s.id = c.species_id 
+where c.fname like ?;
+
 --associate a character with an event
 INSERT INTO got_events_characters (event_id, character_id) VALUES (:character_ID_from_dropdown, :event_id_from_dropdown)
 
