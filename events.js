@@ -175,5 +175,37 @@ module.exports = function(){
             }
         });
     })
+
+    router.get('/search/:name', (req,res)=>{
+        console.log('searching for req.params.name: ' + req.params.name);
+        var context = {};
+        var callbackCount = 0;
+        var mysql = req.app.get('mysql');
+
+        getEventsLike(req, res, mysql, context, complete);
+
+        function complete(){
+            callbackCount++;
+            if(callbackCount >= 1){
+                res.send(context);
+            }
+        }
+    })
+
+    function getEventsLike(req, res, mysql, context, complete){
+
+        let sql = "SELECT e.id, e.name, l.name as location, season, episode, summary from got_events e"
+            + " left join got_locations l on l.id = e.location where e.name like " + mysql.pool.escape(req.params.name + '%');
+        
+        mysql.pool.query(sql, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.events = results;
+            complete();
+        })
+    }
+
     return router;
 }();

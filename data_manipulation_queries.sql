@@ -66,6 +66,11 @@ left join got_locations l on l.id = c.origin
 left join got_species s on s.id = c.species_id 
 where c.fname like ?;
 
+-- select all events where name = ?
+SELECT e.id, e.name, l.name as location, season, episode, summary from got_events e
+left join got_locations l on l.id = e.location
+where e.name like ?;
+
 --associate a character with an event
 INSERT INTO got_events_characters (event_id, character_id) VALUES (:character_ID_from_dropdown, :event_id_from_dropdown)
 
