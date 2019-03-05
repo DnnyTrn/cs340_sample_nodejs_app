@@ -64,7 +64,7 @@ function deleteRow(id) {
 // search for all people with names like %
 // ajax get request to 'pagename/search/:name
 $('#search-button').on("click", function(){
-    this.disabled=true;
+    this.disabled=true; //disables search button's appearance so it cannot be spam clicked
 
         const search_form_id = $('#search-name');
         const search_array = $('#search-name').serializeArray();
@@ -72,7 +72,7 @@ $('#search-button').on("click", function(){
         console.log(search_array[0].value);
         if (!search_array[0].value.trim().length)
         {
-            console.log('Failed validation')
+            console.log('Failed validation - value has length of zero')
             // event.preventDefault();  
             event.stopPropagation();  //display user required message
         }
@@ -90,8 +90,6 @@ $('#search-button').on("click", function(){
 
                         $('tbody').remove();
                         $('table').append(generatedHTML);
-
-                     
                     }
                 })
             )   
