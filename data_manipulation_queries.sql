@@ -17,6 +17,11 @@ select id, name from got_continents
 select l.id, l.name as name, region, c.name as continent from got_locations l
 left join got_continents c on c.id = l.continent_id;
 
+-- select locations with column names where name like ?
+select l.id, l.name, region, c.name as continent from got_locations l
+left join got_continents c on c.id = l.continent_id
+where l.name like ?;
+
 -- getHouses() - select all houses for get request
 SELECT h.id as house_id, name as house_name, sigil, c.fname, c.lname , hs.status FROM got_house h
 left join got_characters c on c.id = h.head

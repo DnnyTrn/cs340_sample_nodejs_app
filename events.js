@@ -195,8 +195,8 @@ module.exports = function(){
     function getEventsLike(req, res, mysql, context, complete){
 
         let sql = "SELECT e.id, e.name, l.name as location, season, episode, summary from got_events e"
-            + " left join got_locations l on l.id = e.location where e.name like " + mysql.pool.escape(req.params.name + '%');
-        
+            + " left join got_locations l on l.id = e.location where e.name like " + mysql.pool.escape(req.params.name + '%')
+            + ' order by e.id DESC';
         mysql.pool.query(sql, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));

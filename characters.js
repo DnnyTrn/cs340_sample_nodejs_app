@@ -254,7 +254,8 @@ module.exports = function () {
 
     function getCharactersNameLike(req, res, mysql, context, complete){
         const sql = "SELECT c.id, fname, lname, h.name as house_name, l.name as location_name, weapon, status, organization, s.name as species_name FROM got_characters c left join got_house h on h.id = c.house_id left join got_locations l on l.id = c.origin left join got_species s on s.id = c.species_id where c.fname like " 
-        + mysql.pool.escape(req.params.name + '%');
+        + mysql.pool.escape(req.params.name + '%')
+        + ' order by c.id DESC';
         console.log(sql);
         mysql.pool.query(sql, function(err, results, fields){
             if(err){
