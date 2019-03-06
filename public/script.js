@@ -1,4 +1,64 @@
+const app = {};
 
+// initalize click listeners
+app.init = function(){
+    this.add();
+    // this.delete();
+    // this.search();
+
+}
+// adding a new row
+app.add = function() {
+    //the only post form on the page
+    const add_form = $("[method='post']");
+    
+    $(document).ready(
+        // click listener to add button submit button
+        $('#add').on('click', function(){
+
+            if (validateForm(add_form)) {
+                event.stopPropagation();    //Please fill out this field message will popup
+                return;
+            }
+
+            $.ajax({
+                url: window.location.pathname,
+                // url: '/character',
+                type: 'POST',
+                data: add_form.serialize(),
+                success: function (result, success, xhr) {
+                    // window.location.replace("." + this.url); 
+                    console.log(result);
+                    app.displayNewTable(result);
+                }
+            })
+        })
+    );
+}
+
+// helper function for add and search buttons
+app.displayNewTable = function (result) {
+    const rawTemplate = $("script[type='text/x-handlebars-template']").html();
+    const compiledTemplate = Handlebars.compile(rawTemplate);
+    const generatedHTML = compiledTemplate(result);
+
+    $('tbody').remove();
+    $('table').append(generatedHTML);
+    $('form').trigger("reset"); //reset form back to default
+}
+
+// client-side validation 
+function validateForm(jqForm) {
+    
+    const form_array = jqForm.serializeArray();
+    // since the first column names in the db cannot be null, we're just validating for the form's first value
+    if(form_array[0].value.trim().length === 0){
+        console.log('empty string detected - form not sent')
+        return true;
+    }
+
+    return false;
+}
 // this function manages the tooltips for the add and delete buttons 
 $(function () {
     $('[data-toggle="tooltip"]').on('click', function () {
@@ -8,40 +68,40 @@ $(function () {
 });
 
 //ajax post request when user adds a new table row
-function add() {    
+// function add() {    
 
-    //the only post form on the page
-    const add_form = $("[method='post']");
+//     //the only post form on the page
+//     const add_form = $("[method='post']");
   
-    // check if name is whitespace or blank
-    if (!add_form[0][0].value.trim().length || add_form[0][0].validity.valueMissing)
-    {
-        // event.preventDefault();  
-        event.stopPropagation();  //display user required message
-    }else{
-        $(document).ready(
-            $.ajax({
-                url: window.location.pathname,
-                // url: '/character',
-                type: 'POST',
-                data: add_form.serialize(),   
-                success: function (result, success, xhr) {
-                    // window.location.replace("." + this.url); 
+//     // check if name is whitespace or blank
+//     if (!add_form[0][0].value.trim().length || add_form[0][0].validity.valueMissing)
+//     {
+//         // event.preventDefault();  
+//         event.stopPropagation();  //display user required message
+//     }else{
+//         $(document).ready(
+//             $.ajax({
+//                 url: window.location.pathname,
+//                 // url: '/character',
+//                 type: 'POST',
+//                 data: add_form.serialize(),   
+//                 success: function (result, success, xhr) {
+//                     // window.location.replace("." + this.url); 
 
-                    // create a new tbody with the new row using Handlebars script
-                    console.log(result);
-                    let rawTemplate = $("script[type='text/x-handlebars-template']").html();
-                    var compiledTemplate = Handlebars.compile(rawTemplate);
-                    var generatedHTML = compiledTemplate(result);
+//                     // create a new tbody with the new row using Handlebars script
+//                     console.log(result);
+//                     let rawTemplate = $("script[type='text/x-handlebars-template']").html();
+//                     var compiledTemplate = Handlebars.compile(rawTemplate);
+//                     var generatedHTML = compiledTemplate(result);
 
-                    $('tbody').remove();
-                    $('table').append(generatedHTML);
-                    $('form').trigger("reset");
-                }
-            })
-        )
-    }
-};
+//                     $('tbody').remove();
+//                     $('table').append(generatedHTML);
+//                     $('form').trigger("reset");
+//                 }
+//             })
+//         )
+//     }
+// };
 
 // ajax function that accesses the delete request. 
 //parameter id is the id from the <tr> row
@@ -90,6 +150,8 @@ $('#search-button').on("click", function(){
 
                         $('tbody').remove();
                         $('table').append(generatedHTML);
+                        $('form').trigger("reset");
+
                     }
                 })
             )   
@@ -123,3 +185,5 @@ $('#search-button').on("click", function(){
                 //     })
                 // })    
                 // };
+
+                app.init();
