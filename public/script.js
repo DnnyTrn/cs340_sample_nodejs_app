@@ -47,7 +47,6 @@ app.displayNewTable = function (result) {
     $('tbody').remove();
     $('table').append(generatedHTML);
     $('form').trigger("reset"); //reset form back to default
-    this.deleteRow();  //apply click listeners to new tbody
 }
 
 // client-side validation 
@@ -66,7 +65,7 @@ function validateForm(jqForm) {
 app.deleteRow = function() {
     $(document).ready(function(){
         // apply click listeners to delete buttons
-        $('.delete-btn').on('click', function(){
+        $('table').on('click', '.delete-btn', function(){
             const id = Number($(this).closest('tr').prop('id'));
 
             $.ajax({
