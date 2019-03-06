@@ -33,7 +33,7 @@
                     <div class='d-flex justify-content-around'>
                         <!-- delete button -->
                         <div data-toggle='tooltip' title='Delete' data-placement='top'>
-                            <button type="button" class="btn btn-danger btn-sm" onclick='deleteRow({{id}})'> 
+                            <button type="button" class="btn btn-danger btn-sm delete-btn"> 
                                 <i class="far fa-trash-alt "></i>
                             </button>
                         </div>
@@ -60,12 +60,11 @@
             <div class="modal-body text-left">
 
                 {{!-- CHARACTER form starts here --}}
-                <form action="/characters" method="post" id="add-row">
+                <form action="" method="post" id="add-row">
                     {{!-- fname --}}
                     <div class="form-group">
                         <label for='fname'>First Name</label>
-                        <input class='form-control' type="text" name="fname" minlength='1' pattern='[A-Za-z]' maxlength="30" placeholder="Aegon"
-                            required>
+                        <input class='form-control' type="text" name="fname" minlength='1' pattern='[A-Za-z]' maxlength="30" placeholder="Aegon">
                     </div>
                     {{!-- lname --}}
                     <div class="form-group">
@@ -149,7 +148,7 @@
             <div class='d-flex justify-content-around'>
                 <!-- delete button -->
                 <div data-toggle='tooltip' title='Delete' data-placement='top'>
-                    <button type="button" class="btn btn-danger btn-sm" onclick='deleteRow(\{{id}})'>
+                    <button type="button" class="btn btn-danger btn-sm delete-btn">
                         <i class="far fa-trash-alt "></i>
                     </button>
                 </div>
