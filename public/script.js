@@ -1,11 +1,12 @@
-const app = {};
+const app = {
+    search_button : $('#search-button')
+};
 
 // initalize click listeners
 app.init = function(){
     this.addRow();
     this.deleteRow();
-    // this.searchButton();
-
+    this.search();
 }
 // adding a new row
 app.addRow = function() {
@@ -59,6 +60,7 @@ function validateForm(jqForm) {
         return true;
     }
 
+    // form is good to send
     return false;
 }
 
@@ -83,6 +85,42 @@ app.deleteRow = function() {
     })
 }
 
+// search for all people with names like %
+// ajax get request to 'pagename/search/:name
+app.search = function() {
+    $(document).ready(
+        // $('#search-button').on("click", function () {
+        this.search_button.on("click", function () {
+            // this.disabled = true; //disable search button's apperance so it cannot be spam clicked
+            $(this).prop('disabled', true);
+
+            const search_form = $('#search-form');  //located @ main.handlebars
+            const search_input = $('#search-input').val();
+
+            if (validateForm(search_form)) {  
+                event.stopPropagation();  //display user required message
+            }
+            else {
+                $(document).ready(
+                    $.ajax({
+                        url: window.location.pathname + '/search/' + encodeURI(search_input), 
+                        type: 'GET',
+                        success: (result, success, xhr) => {
+                            console.log(result);
+                            app.displayNewTable(result);
+                        }
+                    })
+                )
+            }
+
+            // enabled search button after 1 second
+            setTimeout(function () {
+                // document.getElementById('search-button').disabled = false;
+                app.search_button.prop('disabled', false);
+            }, 1000);
+        })
+    )
+}
 // this function manages the tooltips for the add and delete buttons 
 $(function () {
     $('[data-toggle="tooltip"]').on('click', function () {
@@ -90,48 +128,6 @@ $(function () {
     })
     $('[data-toggle="tooltip"]').tooltip()
 });
-
-// search for all people with names like %
-// ajax get request to 'pagename/search/:name
-$('#search-button').on("click", function(){
-    this.disabled=true; //disable search button's apperance so it cannot be spam clicked
-
-        const search_form_id = $('#search-name');
-        const search_array = $('#search-name').serializeArray();
-        console.log(search_array);
-        console.log(search_array[0].value);
-        if (!search_array[0].value.trim().length)
-        {
-            console.log('Failed validation - input length is 0')
-            // event.preventDefault();  
-            event.stopPropagation();  //display user required message
-        }
-        else{
-            $(document).ready(
-                $.ajax({
-                    url: window.location.pathname + '/search/' + encodeURI(search_array[0].value),
-                    type: 'GET',
-                    success: (result, success, xhr) => {
-                        console.log(success);
-                        console.log(result);
-                        let rawTemplate = $("script[type='text/x-handlebars-template']").html();
-                        var compiledTemplate = Handlebars.compile(rawTemplate);
-                        var generatedHTML = compiledTemplate(result);
-
-                        $('tbody').remove();
-                        $('table').append(generatedHTML);
-                        $('form').trigger("reset");
-
-                    }
-                })
-            )   
-        }
-
-        // enabled search button after 1 second
-    setTimeout(function () {
-        document.getElementById('search-button').disabled = false;
-    }, 1000);
-})
 
 // intialize event listeners
 app.init();
