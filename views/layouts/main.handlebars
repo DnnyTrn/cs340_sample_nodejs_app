@@ -1,103 +1,107 @@
 <!doctype html>
 <html>
+
 <head>
-     <script src="/handlebars-v4.1.0.js"></script>
+    <script src="/handlebars-v4.1.0.js"></script>
 
     {{!-- used to load scripts --}}
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
 
-        {{#each jsscripts}}
-        <script src="/static/{{this}}"></script>
-        {{/each}}
+    {{#each jsscripts}}
+    <script src="/static/{{this}}"></script>
+    {{/each}}
 
 
-        <!-- Required meta tags for bootstrap-->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        
-        {{!-- google font --}}
-        <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        
-        <!-- font awesome throne icon -->
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-            crossorigin="anonymous">
-        
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-            crossorigin="anonymous">
-        
-        {{!-- custom css --}}
-        <link rel='stylesheet' href='/style.css'>
+    <!-- Required meta tags for bootstrap-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {{!-- google font --}}
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- font awesome throne icon -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+        crossorigin="anonymous">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+
+    {{!-- custom css --}}
+    <link rel='stylesheet' href='/style.css'>
 </head>
+
 <body>
-        <header>
-            <!-- navbar -->
-            <nav class='navbar navbar-expand-lg navbar-dark navbar-style'>
-                <a href='./' class='navbar-brand text-uppercase'>
-                    <i class="fab fa-fort-awesome"></i>
-                    Game of Thrones </a>
-        
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a class="nav-item nav-link active" href="./">Home <span class="sr-only">(current)</span></a>
-                    </div>
+    <header>
+        <!-- navbar -->
+        <nav class='navbar navbar-expand-lg navbar-dark navbar-style'>
+            <a href='./' class='navbar-brand text-uppercase'>
+                <i class="fab fa-fort-awesome"></i>
+                Game of Thrones </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active" href="./">Home <span class="sr-only">(current)</span></a>
                 </div>
-            </nav>
-        </header>
+            </div>
+        </nav>
+    </header>
 
 
-<div class="container mt-5">
-    <!-- table buttons! -->
-    <div class="row">
-        <div class="col-auto mr-auto px-0">
-            <!-- TABLES button group  -->
-            <a class="btn btn-primary float-left rounded-0" href="/characters">Characters</a>
-            <a class="btn btn-info float-left rounded-0" href="/houses">Noble Houses</a>
-            <a class="btn btn-warning text-white float-left rounded-0" href="/locations">Locations</a>
-            <a class="btn btn-danger float-left rounded-0" href="/events">Events</a>
-            <a class="btn btn-dark float-left rounded-0" href="event_characters">Events and Characters</a>
-        </div>
+    <div class="container mt-5">
+        <!-- table buttons! -->
+        <div class="row">
+            <div class="col-auto mr-auto px-0">
+                <!-- TABLES button group  -->
+                <a class="btn btn-primary float-left rounded-0" href="/characters">Characters</a>
+                <a class="btn btn-info float-left rounded-0" href="/houses">Noble Houses</a>
+                <a class="btn btn-warning text-white float-left rounded-0" href="/locations">Locations</a>
+                <a class="btn btn-danger float-left rounded-0" href="/events">Events</a>
+                <a class="btn btn-dark float-left rounded-0" href="event_characters">Events and Characters</a>
+            </div>
 
-        <!-- Search and Add buttons -->
-        <div class="col-auto d-flex px-0">
-            <!-- search button -->
-            <form action="" method="" class="form-inline" id='search-form' >
-                <input type="text" name="name" id="search-input" class='form-control' minlength='1' pattern='[A-Za-z]' placeholder="Search...">
-                <button class="btn btn-secondary" type="button" id="search-button"><i class="fas fa-search"></i></button>
-            </form>
+            <!-- Search and Add buttons -->
+            <div class="col-auto d-flex px-0">
+                <!-- search button -->
+                <form action="" method="" class="form-inline" id='search-form'>
+                    <input type="text" name="name" id="search-input" class='form-control' minlength='1' pattern='[A-Za-z]'
+                        placeholder="Search...">
+                    <button class="btn btn-secondary" type="button" id="search-button"><i class="fas fa-search"></i></button>
+                </form>
 
-            <!-- green add button -->
+                <!-- green add button -->
                 <button class="btn btn-success" data-toggle='modal' data-target='#editModal'>
                     <i class="fas fa-plus"></i> Add</button>
+            </div>
+
+            {{!-- this is where the table renders --}}
+            {{{body}}}
+
         </div>
-    
-    {{!-- this is where the table renders --}}
-    {{{body}}} 
-    
     </div>
-</div>
-        <!-- footer starts here -->
-<footer class='footer'>
-    {{!-- <p class="m-0 py-5 text-center text-white">Website created by Jesus Madrigales & Danny Tran</p> --}}
+    <!-- footer starts here -->
+    <footer class='footer'>
+        {{!-- <p class="m-0 py-5 text-center text-white">Website created by Jesus Madrigales & Danny Tran</p> --}}
         <div class="container">
-        <span class='text-white'>Website created by Jesus Madrigales & Danny Tran</span>
+            <span class='text-white'>Website created by Jesus Madrigales & Danny Tran</span>
         </div>
-</footer>
+    </footer>
 
-            <!-- Popper.js, then Bootstrap JS -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-                crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-                crossorigin="anonymous"></script>
+    <!-- Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
 
-            <!-- JavaScript -->
-            <script src="/script.js"></script>
-        
+    <!-- JavaScript -->
+    <script src="/script.js"></script>
+
 </body>
+
 </html>

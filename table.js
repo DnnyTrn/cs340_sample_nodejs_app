@@ -225,8 +225,6 @@ module.exports = function () {
         var callbackCount = 0;
         var context = {};
         var mysql = req.app.get('mysql');
-        // getPeopleWithNameLike(req, res, mysql, context, complete);
-        // getPlanets(res, mysql, context, complete);
 
         getCharactersNameLike(req,res,mysql,context,complete);
 
