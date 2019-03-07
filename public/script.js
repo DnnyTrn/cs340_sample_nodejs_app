@@ -1,42 +1,38 @@
-const app = {
-    search_button : $('#search-button')
-};
+const app = {};
 
 // initalize click listeners
 app.init = function(){
-    this.addRow();
-    this.deleteRow();
-    this.search();
+    this.addRow(),
+    this.deleteRow(),
+    this.search()
 }
 // adding a new row
 app.addRow = function() {
-    $(document).ready(
-        // click listener to add button submit button
-        $('#add').on('click', function add_click(event){
+    // click listener to add button submit button
+    $('#add').on('click', function add_click(event){
 
-            //the only post form on the page
-            const add_form = $("[method='post']");
+        //the only post form on the page
+        const add_form = $("[method='post']");
 
-            if (validateForm(add_form)) {
+        if (validateForm(add_form)) {
 
-                event.stopPropagation();    //Please fill out this field message will popup
-                return;
-            }
-            else{
-                $.ajax({
-                    url: window.location.pathname,
-                    // url: '/character',
-                    type: 'POST',
-                    data: add_form.serialize(),
-                    success: function (result, success, xhr) {
-                        // window.location.replace("." + this.url); 
-                        console.log(result);
-                        app.displayNewTable(result);
-                    }
-                })
-            }
-        })
-    );
+            event.stopPropagation();    //Please fill out this field message will popup
+            return;
+        }
+        else{
+            $.ajax({
+                url: window.location.pathname,
+                // url: '/character',
+                type: 'POST',
+                data: add_form.serialize(),
+                success: function (result, success, xhr) {
+                    // window.location.replace("." + this.url); 
+                    console.log(result);
+                    app.displayNewTable(result);
+                }
+            })
+        }
+    })
 }
 
 // helper function for add and search buttons
@@ -65,22 +61,20 @@ function validateForm(jqForm) {
 }
 
 app.deleteRow = function() {
-    $(document).ready(function(){
-        // apply click listeners to delete buttons
-        $('table').on('click', '.delete-btn', function(){
-            const id = Number($(this).closest('tr').prop('id'));
+    // apply click listeners to delete buttons
+    $('table').on('click', '.delete-btn', function(){
+        const id = Number($(this).closest('tr').prop('id'));
 
-            $.ajax({
-                url: window.location.pathname,
-                type: 'DELETE',
-                data: {id},
-                success: (results, success, xhr) => {
-                    console.log('deleted row with id: ' + id);
-                    $(this).closest('tr').fadeOut(500, function(){
-                        $(this).remove();
-                    })
-                }
-            })
+        $.ajax({
+            url: window.location.pathname,
+            type: 'DELETE',
+            data: {id},
+            success: (results, success, xhr) => {
+                console.log('deleted row with id: ' + id);
+                $(this).closest('tr').fadeOut(500, function(){
+                    $(this).remove();
+                })
+            }
         })
     })
 }
@@ -88,38 +82,37 @@ app.deleteRow = function() {
 // search for all people with names like %
 // ajax get request to 'pagename/search/:name
 app.search = function() {
-    $(document).ready(
-        // $('#search-button').on("click", function () {
-        this.search_button.on("click", function () {
-            // this.disabled = true; //disable search button's apperance so it cannot be spam clicked
-            $(this).prop('disabled', true);
+    const search_button = $('#search-button');
 
-            const search_form = $('#search-form');  //located @ main.handlebars
-            const search_input = $('#search-input').val();
+    search_button.on("click", function () {
+        // this.disabled = true; //disable search button's apperance so it cannot be spam clicked
+        $(this).prop('disabled', true);
 
-            if (validateForm(search_form)) {  
-                event.stopPropagation();  //display user required message
-            }
-            else {
-                $(document).ready(
-                    $.ajax({
-                        url: window.location.pathname + '/search/' + encodeURI(search_input), 
-                        type: 'GET',
-                        success: (result, success, xhr) => {
-                            console.log(result);
-                            app.displayNewTable(result);
-                        }
-                    })
-                )
-            }
+        const search_form = $('#search-form');  //located @ main.handlebars
+        const search_input = $('#search-input').val();
 
-            // enabled search button after 1 second
-            setTimeout(function () {
-                // document.getElementById('search-button').disabled = false;
-                app.search_button.prop('disabled', false);
-            }, 1000);
-        })
-    )
+        if (validateForm(search_form)) {  
+            event.stopPropagation();  //display user required message
+        }
+        else {
+            $(document).ready(
+                $.ajax({
+                    url: window.location.pathname + '/search/' + encodeURI(search_input), 
+                    type: 'GET',
+                    success: (result, success, xhr) => {
+                        console.log(result);
+                        app.displayNewTable(result);
+                    }
+                })
+            )
+        }
+
+        // enabled search button after 1 second
+        setTimeout(function () {
+            // document.getElementById('search-button').disabled = false;
+            search_button.prop('disabled', false);
+        }, 1000);
+    })
 }
 // this function manages the tooltips for the add and delete buttons 
 $(function () {
@@ -130,4 +123,4 @@ $(function () {
 });
 
 // intialize event listeners
-app.init();
+$(document).ready(app.init());
