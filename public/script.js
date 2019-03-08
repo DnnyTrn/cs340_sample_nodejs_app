@@ -3,11 +3,12 @@ const app = {};
 // initalize click listeners
 app.init = function() {
 	this.addRow(), this.deleteRow(), this.search();
+	this.getQuote();
 };
 // adding a new row
 app.addRow = function() {
 	// click listener to add button submit button
-	$("#add").on("click", function add_click(event) {
+	$("#add").on("click", function(event) {
 		//the only post form on the page
 		const add_form = $("[method='post']");
 
@@ -50,10 +51,11 @@ function validateForm(jqForm) {
 		return true;
 	}
 
-	// form is good to send 
+	// form is good to send
 	return false;
 }
 
+// send Delete request and remove the row
 app.deleteRow = function() {
 	// apply click listeners to delete buttons
 	$("table").on("click", ".delete-btn", function() {
@@ -123,6 +125,16 @@ $(function() {
 	});
 	$('[data-toggle="tooltip"]').tooltip();
 });
+
+app.getQuote = function() {
+	$.ajax({
+		url: "https://got-quotes.herokuapp.com/quotes",
+		type: "GET",
+		success: result => {
+			console.log(`${result.quote} - ${result.character}`);
+		}
+	});
+};
 
 // intialize event listeners
 $(document).ready(app.init());
