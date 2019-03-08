@@ -11,7 +11,6 @@ module.exports = function () {
 
             if (error) {
                 res.write(JSON.stringify(error));
-                // make sure to use your dbcon credentials!
                 res.end();
             }
 
