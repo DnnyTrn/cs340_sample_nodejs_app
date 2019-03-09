@@ -2,7 +2,9 @@ const app = {};
 
 // initalize click listeners
 app.init = function() {
-	this.addRow(), this.deleteRow(), this.search();
+    this.addRow(), 
+    this.deleteRow(), 
+    this.search();
 	this.getQuote();
 };
 // adding a new row
