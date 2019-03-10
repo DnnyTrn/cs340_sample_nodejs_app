@@ -48,7 +48,6 @@ module.exports = function(){
         console.log('get/')
         var callbackCount = 0;
         var context = {};
-        //context.jsscripts = ["deleteGOT.js"];
         var mysql = req.app.get('mysql');
 
         getEventCharacters(res, mysql, context, complete);
@@ -87,10 +86,9 @@ module.exports = function(){
         })
     });
 
-    /*function getAnEventCharacter(res, mysql, context, id, complete){
+    function getAnEventCharacter(res, mysql, context, id, complete){
         var sql = 'SELECT id, event_id, character_id FROM got_events_characters WHERE id = ?';
         var inserts = [id];
-        console.log('GOing through getAEventChar');
         mysql.pool.query(sql, inserts, function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));
@@ -100,15 +98,15 @@ module.exports = function(){
             complete();
         });
 
-    }*/
+    }
 
-    // /* Display one event/character for the specific purpose of updating event/character  */
-    /*router.get('/:id', function (req, res) {
+    //Display one event/character for the specific purpose of updating event/character  */
+    router.get('/:id', function (req, res) {
         callbackCount = 0;
         var context = {};
         context.jsscripts = ['selectedCharacter.js', 'selectedEvent.js', 'updateeventcharacter.js'];
         var mysql = req.app.get('mysql');
-        console.log('GOing through getFUCKed');
+        console.log('Going through getFUCKed');
 
         getAnEventCharacter(res, mysql, context, req.params.id, complete);
         getCharacters(res, mysql, context, complete);
@@ -120,25 +118,28 @@ module.exports = function(){
                 res.render('update-eventCharacter', context);
             }
         }
-    });*/
+    });
 
-    // /* The URI that update data is sent to in order to update an event/character */
+    /* The URI that update data is sent to in order to update an event/character */
 
-    /*router.put('/:id', function (req, res) {
+    router.put('/:id', function (req, res) {
         var mysql = req.app.get('mysql');
         console.log('put/:id')
         console.log(req.body)
+        console.log(req.body.event_id)
+        console.log(req.body.character_id)
         console.log(req.params.id)
-        console.log('GOing through put1');
+        console.log('Going through put1');
 
 
-        var sql = 'UPDATE got_events_characters SET event_id = ?, character_id = ? WHERE id = ?';
+        var sql = "UPDATE got_events_characters SET event_id = ?, character_id = ? WHERE id = ?";
         var inserts = [
             req.body.event_id,
             req.body.character_id,
             req.params.id
         ];
 
+        console.log(sql);
         //convertEmptyStringToNull(inserts);
         sql = mysql.pool.query(sql, inserts, function (error, results, fields) {
             if (error) {
@@ -151,7 +152,7 @@ module.exports = function(){
                 res.end();
             }
         });
-    });*/
+    });
 
     return router;
 }();
