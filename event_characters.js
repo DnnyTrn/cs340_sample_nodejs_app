@@ -125,6 +125,8 @@ module.exports = function(){
         var mysql = req.app.get('mysql');
         console.log('put/:id')
         console.log(req.body)
+        console.log(req.body.event_id)
+        console.log(req.body.character_id)
         console.log(req.params.id)
 
 
