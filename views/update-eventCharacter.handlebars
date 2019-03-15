@@ -1,7 +1,7 @@
 <head>
     <title>Update-Event-Character</title>
     <style>
-        form#assocCharEvent {
+        form#update-eventCharacter {
             border: 5px;
             border-style: solid;
             border-color: black;
@@ -25,13 +25,13 @@
     <div class="container" class="insertEventCharacter">
         <div class="centerThis">
 
-            <form action = "/event_characters" method = "put" id="assocCharEvent">
+            <form action = "/event_characters" method = "put" id="update-eventCharacter">
 
-                <h2 style="text-center">Event/Character Insert Form</h2>
+                <h2 style="text-center">Update Event/Character Relationship</h2>
 
                 <div class="form-group">
                     <label for='event_id'>Event</label>
-                    <select name='event_id' class='custom-select'>
+                    <select name='event_id' class='custom-select' id='event-selector'>
                         {{#each events}}
                         <option value="{{fromEvent_id}}">{{name}}</option>
                         {{/each}}
@@ -41,7 +41,7 @@
 
                 <div class="form-group">
                     <label for='character_id'>Characters</label>
-                    <select name="character_id" class='custom-select'>
+                    <select name="character_id" class='custom-select' id='character-selector'>
                         {{#each characters}}
                         <option value="{{id}}">{{fname}} {{lname}}</option>
                         {{/each}}
@@ -58,6 +58,6 @@
     </div>
 
 <script defer>
-    selectEvent({{ event_character.fromEvent_id }});
-    selectCharacter({{ event_character.id }});
+    selectEvent({{ event_character.event_id }});
+    selectCharacter({{ event_character.character_id }});
 </script>
