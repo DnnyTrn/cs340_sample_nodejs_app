@@ -25,6 +25,7 @@ app.use('/characters', require('./characters.js'));
 app.use('/houses', require('./houses.js'));
 app.use('/locations', require('./locations.js'));
 app.use('/events', require('./events.js'));
+app.use('/event_characters', require('./event_characters.js'));
 // test page
 app.use('/table', require('./table.js')); 
 

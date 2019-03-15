@@ -106,7 +106,6 @@ module.exports = function(){
         var context = {};
         context.jsscripts = ['selectedCharacter.js', 'selectedEvent.js', 'updateeventcharacter.js'];
         var mysql = req.app.get('mysql');
-        console.log('Going through getFUCKed');
 
         getAnEventCharacter(res, mysql, context, req.params.id, complete);
         getCharacters(res, mysql, context, complete);
@@ -129,7 +128,6 @@ module.exports = function(){
         console.log(req.body.event_id)
         console.log(req.body.character_id)
         console.log(req.params.id)
-        console.log('Going through put1');
 
 
         var sql = "UPDATE got_events_characters SET event_id = ?, character_id = ? WHERE id = ?";
@@ -148,7 +146,6 @@ module.exports = function(){
                 res.end();
             } else {
                 res.status(200);
-                console.log('should be updated')
                 res.end();
             }
         });

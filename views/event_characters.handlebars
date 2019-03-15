@@ -14,7 +14,7 @@
         </thead>
         <tbody>
             {{#each event_characters}}
-            <tr>
+            <tr id={{id}}>
                 <td>{{event_name}}</td>
                 <td>{{fname}}</td>
                 <td>{{lname}}</td>
@@ -54,7 +54,7 @@
 
                 <div class="form-group">
                     <label for='origin'>Event</label>
-                    <select name='event_id' class='custom-select'>
+                    <select name='event_id' class='custom-select' id='event-selector'>
                         {{#each events}}
                         <option value="{{fromEvent_id}}">{{name}}</option>
                         {{/each}}
@@ -64,7 +64,7 @@
 
                 <div class="form-group">
                     <label for='character'>Characters</label>
-                    <select name="character_id" class='custom-select'>
+                    <select name="character_id" class='custom-select' id='character-selector'>
                         {{#each characters}}
                         <option value="{{id}}">{{fname}} {{lname}}</option>
                         {{/each}}

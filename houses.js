@@ -52,7 +52,7 @@ module.exports = function(){
         console.log('get/')
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["deleteGOT.js"];
+        //fcontext.jsscripts = ["deleteGOT.js"];
         var mysql = req.app.get('mysql');
 
         getHouses(res, mysql, context, complete);
