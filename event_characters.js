@@ -71,8 +71,10 @@ module.exports = function(){
         var inserts = [req.body.event_id, req.body.character_id];
 
 
-        //convertEmptyStringToNull(inserts);
-
+        convertEmptyStringToNull(inserts);
+        console.log('inserts',inserts);
+        
+        
         sql = mysql.pool.query(sql, inserts, function(error, results, field){
             if (error) {
                 //Take this out for final
@@ -138,7 +140,7 @@ module.exports = function(){
         ];
 
         console.log(sql);
-        //convertEmptyStringToNull(inserts);
+        convertEmptyStringToNull(inserts);
         sql = mysql.pool.query(sql, inserts, function (error, results, fields) {
             if (error) {
                 console.log(error)
@@ -153,3 +155,22 @@ module.exports = function(){
 
     return router;
 }();
+
+// returns true if string length is 0
+String.prototype.isEmpty = function () {
+    return this.length === 0 || !this.trim();
+};
+
+// changes empty strings to value of null
+function convertEmptyStringToNull(inserts) {
+    inserts.forEach((element, index) => {
+        if (element.isEmpty()) {
+            inserts[index] = null;
+        }
+
+        // if user puts in a bunch of white spaces for the name set fname so app doesn't crash
+        if (inserts[0] === null) {
+            inserts[0] = "missing required field";
+        }
+    });
+}
