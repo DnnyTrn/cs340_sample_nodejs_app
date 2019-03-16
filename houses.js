@@ -75,12 +75,10 @@ module.exports = function(){
         var sql = 'INSERT INTO got_house (name, sigil, head, status_id) VALUES (?,?,?,?)';
         var inserts = [req.body.name, req.body.sigil, req.body.head, req.body.status_id];
 
-        //convertEmptyStringToNull(inserts);
+        convertEmptyStringToNull(inserts);
 
         sql = mysql.pool.query(sql, inserts, function(error, results, field){
             if (error) {
-                //Take this out for final
-                console.log(error)
                 res.write(JSON.stringify(error));
                 res.end();
             }
@@ -91,12 +89,12 @@ module.exports = function(){
     });
 
     // returns true if string length is 0
-   /* String.prototype.isEmpty = function () {
+   String.prototype.isEmpty = function () {
         return (this.length === 0 || !this.trim());
-    };*/
+    };
 
     // changes empty strings to value of null
-    /*function convertEmptyStringToNull(inserts){
+    function convertEmptyStringToNull(inserts){
         inserts.forEach((element, index)=>{
             if(element.isEmpty()){
                 inserts[index] = null;
@@ -107,7 +105,7 @@ module.exports = function(){
                 inserts[0] = 'missing required field';
             }
         });
-    }*/
+    }
 
     function getAHouse(res, mysql, context, id, complete){
         var sql = 'SELECT id, name, sigil, head, status_id FROM got_house WHERE id = ?';
@@ -163,7 +161,7 @@ module.exports = function(){
             req.params.id
         ];
 
-        //convertEmptyStringToNull(inserts);
+        convertEmptyStringToNull(inserts);
         sql = mysql.pool.query(sql, inserts, function (error, results, fields) {
             if (error) {
                 console.log(error)
@@ -175,6 +173,25 @@ module.exports = function(){
             }
         });
     });
+
+    router.delete('/', function (req,res) {
+        let sql = 'DELETE FROM got_house where id = ?';
+        let inserts = [req.body.id];
+        console.log('sql',sql);
+        console.log('inserts', req.body.id);
+        
+        
+        sql = req.app.get('mysql').pool.query(sql, inserts, function (err, results, fields) {
+            if(err){
+                res.write(JSON.stringify(err));
+                res.status(400);
+                res.end();
+            }
+
+            res.status(202).end();
+            
+        })
+    })
 
 
 
