@@ -16,8 +16,7 @@ app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
 app.set('port', process.argv[2] || 3000);
 app.set('mysql', mysql);
-app.use('/people_certs', require('./people_certs.js'));
-app.use('/people', require('./people.js'));
+
 app.use('/', express.static('public'));
 
 // GOT routes!
@@ -26,8 +25,8 @@ app.use('/houses', require('./houses.js'));
 app.use('/locations', require('./locations.js'));
 app.use('/events', require('./events.js'));
 app.use('/event_characters', require('./event_characters.js'));
-// test page
-app.use('/table', require('./table.js')); 
+
+
 
 app.use(function(req,res){
   res.status(404);

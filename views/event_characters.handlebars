@@ -14,7 +14,7 @@
         </thead>
         <tbody>
             {{#each event_characters}}
-            <tr id={{id}}>
+            <tr id={{combined_id}}>
                 <td>{{event_name}}</td>
                 <td>{{fname}}</td>
                 <td>{{lname}}</td>
@@ -58,7 +58,7 @@
                         {{#each events}}
                         <option value="{{fromEvent_id}}">{{name}}</option>
                         {{/each}}
-                        <option value=''>none</option>
+                        {{!-- <option value=''>none</option> sql error when this is selected--}} 
                     </select>
                 </div>
 
@@ -68,7 +68,7 @@
                         {{#each characters}}
                         <option value="{{id}}">{{fname}} {{lname}}</option>
                         {{/each}}
-                        <option value=''>none</option>
+                        {{!-- <option value=''>none</option> --}}
                     </select>
                 </div>
 
