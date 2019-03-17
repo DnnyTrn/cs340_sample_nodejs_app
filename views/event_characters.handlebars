@@ -1,7 +1,7 @@
- <title>Event+Characters</title>
+<title>Event+Characters</title>
 
 
- <!-- table -->
+<!-- table -->
 <div class="mt-1 w-100">
     <table class="table table-dark table-striped table-bordered table-hover">
         <!-- row headers -->
@@ -14,30 +14,31 @@
         </thead>
         <tbody>
             {{#each event_characters}}
-            <tr id={{combined_id}}> 
+            <tr id={{combined_id}}>
                 <td>{{event_name}}</td>
                 <td>{{fname}}</td>
                 <td>{{lname}}</td>
-            <!-- delete & edit buttons -->
-        <td>
-            <div class='d-flex justify-content-around'>
-                <!-- delete button -->
-                <div data-toggle='tooltip' title='Delete' data-placement='top'>
-                    <button type="button" class="btn btn-danger btn-sm" onclick=''>
-                        <i class="far fa-trash-alt "></i>
-                    </button>
-                </div>
+                <!-- delete & edit buttons -->
+                <td>
+                    <div class='d-flex justify-content-around'>
+                        <!-- delete button -->
+                        <div data-toggle='tooltip' title='Delete' data-placement='top'>
+                            <button type="button" class="btn btn-danger btn-sm delete-btn">
+                                <i class="far fa-trash-alt "></i>
+                            </button>
+                        </div>
 
-                <!-- edit button -->
-                <div data-toggle='tooltip' title='Edit' data-placement="top">
-                    <a class="btn btn-success btn-sm editBtn" href='/event_characters/{{combined_id}}'>
-                        <i class="fas fa-edit"></i>
-                    </a>
-                </div>
-            </div>
-        </td>
-        </tr>
-        {{/each}}
+                        <!-- edit button -->
+                        <div data-toggle='tooltip' title='Edit' data-placement="top">
+                            <a class="btn btn-success btn-sm editBtn" href='/event_characters/{{combined_id}}'>
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
     </table>
 </div>
 
@@ -50,35 +51,66 @@
 
                 {{!-- CHARACTER_EVENT form starts here --}}
 
-            <form action="/event_characters" method="post" id="insertEventCharacter" >
+                <form action="/event_characters" method="post" id="insertEventCharacter">
 
-                <div class="form-group">
-                    <label for='origin'>Event</label>
-                    <select name='event_id' class='custom-select' id='event-selector'>
-                        {{#each events}}
-                        <option value="{{fromEvent_id}}">{{name}}</option>
-                        {{/each}}
-                        {{!-- <option value=''>none</option> sql error when this is selected--}} 
-                    </select>
-                </div>
+                    <div class="form-group">
+                        <label for='origin'>Event</label>
+                        <select name='event_id' class='custom-select' id='event-selector'>
+                            {{#each events}}
+                            <option value="{{fromEvent_id}}">{{name}}</option>
+                            {{/each}}
+                            {{!-- <option value=''>none</option> sql error when this is selected--}}
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <label for='character'>Characters</label>
-                    <select name="character_id" class='custom-select' id='character-selector'>
-                        {{#each characters}}
-                        <option value="{{id}}">{{fname}} {{lname}}</option>
-                        {{/each}}
-                        <option value=''>none</option>
-                    </select>
-                </div>
+                    <div class="form-group">
+                        <label for='character'>Characters</label>
+                        <select name="character_id" class='custom-select' id='character-selector'>
+                            {{#each characters}}
+                            <option value="{{id}}">{{fname}} {{lname}}</option>
+                            {{/each}}
+                            <option value=''>none</option>
+                        </select>
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                    <button class="btn btn-success">Submit</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-success" id="add" data-dismiss="modal">Submit</button>
+                    </div>
                 </form>
             </div>
 
         </div>
     </div>
 </div>
+
+{{!-- handlebars script used for ajax POST add event_characters in script.js --}}
+<script type='text/x-handlebars-template'>
+    <tbody>
+    \{{#each event_characters}}
+    <tr id=\{{combined_id}}>
+        <td>\{{event_name}}</td>
+        <td>\{{fname}}</td>
+        <td>\{{lname}}</td>
+        <!-- delete & edit buttons -->
+        <td>
+            <div class='d-flex justify-content-around'>
+                <!-- delete button -->
+                <div data-toggle='tooltip' title='Delete' data-placement='top'>
+                    <button type="button" class="btn btn-danger btn-sm delete-btn">
+                        <i class="far fa-trash-alt "></i>
+                    </button>
+                </div>
+
+                <!-- edit button -->
+                <div data-toggle='tooltip' title='Edit' data-placement="top">
+                    <a class="btn btn-success btn-sm editBtn" href="/event_characters/\{{id}}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </div>
+            </div>
+        </td>
+    </tr>
+    \{{/each}}
+    </tbody>
+</script>

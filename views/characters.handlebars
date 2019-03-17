@@ -59,7 +59,7 @@
             <div class="modal-body text-left">
 
                 {{!-- CHARACTER form starts here --}}
-                <form action="/characters" method="post" id="add-row">
+                <form action="/characters" method="post">
                     {{!-- fname --}}
                     <div class="form-group">
                         <label for='fname'>First Name</label>
@@ -130,7 +130,7 @@
 </div>
 
 {{!-- handlebars script used for ajax POST add character in script.js --}}
-<script id="characterTemplate" type='text/x-handlebars-template'>
+<script type='text/x-handlebars-template'>
     <tbody>
     \{{#each characters}}
     <tr id=\{{id}}>
