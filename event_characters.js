@@ -1,27 +1,27 @@
-module.exports = function(){
+module.exports = function() {
     var express = require('express');
     var router = express.Router();
 
     //populates the event_characters table for /event_characters
-    function getEventCharacters(res, mysql, context, complete){
+    function getEventCharacters(res, mysql, context, complete) {
         let queryString = 'SELECT ec.id as combined_id, e.name as event_name, c.fname, c.lname FROM got_events_characters ec '
-        + ' left join got_characters c on c.id = ec.character_id '
-        + ' left join got_events e on e.id = ec.event_id';
-        mysql.pool.query(queryString, function(error, results, fields){
+            + ' left join got_characters c on c.id = ec.character_id '
+            + ' left join got_events e on e.id = ec.event_id';
+        mysql.pool.query(queryString, function (error, results, fields) {
 
-            if(error){
+            if (error) {
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.event_characters  = results;
+            context.event_characters = results;
             complete();
         });
     }
 
-    function getCharacters(res, mysql, context, complete){
+    function getCharacters(res, mysql, context, complete) {
         let queryString = 'SELECT id, fname, lname FROM got_characters';
-        mysql.pool.query(queryString, (err, results, fields)=>{
-            if(err){
+        mysql.pool.query(queryString, (err, results, fields) => {
+            if (err) {
                 res.write(JSON.stringify(err));
                 res.end();
             }
@@ -30,10 +30,10 @@ module.exports = function(){
         })
     }
 
-    function getEvents(res, mysql, context, complete){
+    function getEvents(res, mysql, context, complete) {
         let queryString = 'SELECT id as fromEvent_id, name FROM got_events';
-        mysql.pool.query(queryString, (err, results, fields)=>{
-            if(err){
+        mysql.pool.query(queryString, (err, results, fields) => {
+            if (err) {
                 res.write(JSON.stringify(err));
                 res.end();
             }
@@ -44,7 +44,7 @@ module.exports = function(){
 
     /*Display all events and their characters.*/
 
-    router.get('/', function(req, res){
+    router.get('/', function (req, res) {
         console.log('get/')
         var callbackCount = 0;
         var context = {};
@@ -54,9 +54,9 @@ module.exports = function(){
         getEvents(res, mysql, context, complete);
         getCharacters(res, mysql, context, complete);
 
-        function complete(){
+        function complete() {
             callbackCount++;
-            if(callbackCount >= 3){
+            if (callbackCount >= 3) {
                 res.render('event_characters', context);
             }
 
@@ -72,23 +72,34 @@ module.exports = function(){
 
 
         convertEmptyStringToNull(inserts);
-        console.log('inserts',inserts);
+        console.log('inserts', inserts);
 
 
-        sql = mysql.pool.query(sql, inserts, function(error, results, field){
+        sql = mysql.pool.query(sql, inserts, function (error, results, field) {
             if (error) {
                 //Take this out for final
                 console.log(error)
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            else{
-                res.redirect('/event_characters');
+            else {
+                let context = {};
+                let callbackCount = 0;
+                getEventCharacters(res, mysql, context, complete);
+
+                function complete() {
+                    callbackCount++;
+                    if(callbackCount >= 1){
+                        res.send(context);
+                    }
+                    
+                }
+                // res.redirect('/event_characters');
             }
         })
     });
 
-    function getAnEventCharacter(res, mysql, context, id, complete){
+    function getAnEventCharacter(res, mysql, context, id, complete) {
         var sql = 'SELECT id, event_id, character_id FROM got_events_characters WHERE id = ?';
         var inserts = [id];
         mysql.pool.query(sql, inserts, function (error, results, fields) {
@@ -153,31 +164,31 @@ module.exports = function(){
         });
     });
 
-    router.get("/search/:name", function(req, res) {
-    console.log("search event_characters name: " + req.params.name);
-    var callbackCount = 0;
-    var context = {};
-    var mysql = req.app.get("mysql");
+    router.get("/search/:name", function (req, res) {
+        console.log("search event_characters name: " + req.params.name);
+        var callbackCount = 0;
+        var context = {};
+        var mysql = req.app.get("mysql");
 
-    getEventsCharactersNameLike(req, res, mysql, context, complete);
+        getEventsCharactersNameLike(req, res, mysql, context, complete);
 
-    function complete() {
-        callbackCount++;
-        if (callbackCount >= 1) {
-            res.send(context);
+        function complete() {
+            callbackCount++;
+            if (callbackCount >= 1) {
+                res.send(context);
+            }
         }
-      }
     });
 
     function getEventsCharactersNameLike(req, res, mysql, context, complete) {
         const sql =
-        'SELECT ec.id as combined_id, e.name as event_name, c.fname, c.lname FROM got_events_characters ec '
-        + ' left join got_characters c on c.id = ec.character_id '
-        + ' left join got_events e on e.id = ec.event_id where e.name like ' +
+            'SELECT ec.id as combined_id, e.name as event_name, c.fname, c.lname FROM got_events_characters ec '
+            + ' left join got_characters c on c.id = ec.character_id '
+            + ' left join got_events e on e.id = ec.event_id where e.name like ' +
             mysql.pool.escape(req.params.name + "%") +
             " order by ec.id DESC";
         console.log(sql);
-        mysql.pool.query(sql, function(err, results, fields) {
+        mysql.pool.query(sql, function (err, results, fields) {
             if (err) {
                 res.write(JSON.stringify(err));
             }
@@ -187,12 +198,12 @@ module.exports = function(){
     }
 
     /* Route to delete a person, simply returns a 202 upon success. Ajax will handle this. */
-    router.delete("/", function(req, res) {
+    router.delete("/", function (req, res) {
         console.log("delete id: " + req.body.id);
         var mysql = req.app.get("mysql");
         var sql = "DELETE FROM got_events_characters WHERE id = ?";
         var inserts = [req.body.id];
-        sql = mysql.pool.query(sql, inserts, function(error, results, fields) {
+        sql = mysql.pool.query(sql, inserts, function (error, results, fields) {
             if (error) {
                 res.write(JSON.stringify(error));
                 res.status(400);
