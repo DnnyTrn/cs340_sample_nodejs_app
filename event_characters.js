@@ -73,8 +73,8 @@ module.exports = function(){
 
         convertEmptyStringToNull(inserts);
         console.log('inserts',inserts);
-        
-        
+
+
         sql = mysql.pool.query(sql, inserts, function(error, results, field){
             if (error) {
                 //Take this out for final
@@ -149,6 +149,56 @@ module.exports = function(){
             } else {
                 res.status(200);
                 res.end();
+            }
+        });
+    });
+
+    router.get("/search/:name", function(req, res) {
+    console.log("search event_characters name: " + req.params.name);
+    var callbackCount = 0;
+    var context = {};
+    var mysql = req.app.get("mysql");
+
+    getEventsCharactersNameLike(req, res, mysql, context, complete);
+
+    function complete() {
+        callbackCount++;
+        if (callbackCount >= 1) {
+            res.send(context);
+        }
+      }
+    });
+
+    function getEventsCharactersNameLike(req, res, mysql, context, complete) {
+        const sql =
+        'SELECT ec.id as combined_id, e.name as event_name, c.fname, c.lname FROM got_events_characters ec '
+        + ' left join got_characters c on c.id = ec.character_id '
+        + ' left join got_events e on e.id = ec.event_id where e.name like ' +
+            mysql.pool.escape(req.params.name + "%") +
+            " order by ec.id DESC";
+        console.log(sql);
+        mysql.pool.query(sql, function(err, results, fields) {
+            if (err) {
+                res.write(JSON.stringify(err));
+            }
+            context.event_characters = results;
+            complete();
+        });
+    }
+
+    /* Route to delete a person, simply returns a 202 upon success. Ajax will handle this. */
+    router.delete("/", function(req, res) {
+        console.log("delete id: " + req.body.id);
+        var mysql = req.app.get("mysql");
+        var sql = "DELETE FROM got_events_characters WHERE id = ?";
+        var inserts = [req.body.id];
+        sql = mysql.pool.query(sql, inserts, function(error, results, fields) {
+            if (error) {
+                res.write(JSON.stringify(error));
+                res.status(400);
+                res.end();
+            } else {
+                res.status(202).end();
             }
         });
     });
