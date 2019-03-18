@@ -1,6 +1,6 @@
- <title>Houses</title>
+<title>Houses</title>
 
- <!-- table -->
+<!-- table -->
 <div class="mt-1 w-100">
     <table class="table table-dark table-striped table-bordered table-hover">
         <!-- row headers -->
@@ -20,27 +20,27 @@
                 <td>{{sigil}}</td>
                 <td>{{fname}} {{lname}}</td>
                 <td>{{status}}</td>
-            <!-- delete & edit buttons -->
-        <td>
-            <div class='d-flex justify-content-around'>
-                <!-- delete button -->
-                <div data-toggle='tooltip' title='Delete' data-placement='top'>
-                    <button type="button" class="btn btn-danger btn-sm delete-btn">
-                        <i class="far fa-trash-alt "></i>
-                    </button>
-                </div>
+                <!-- delete & edit buttons -->
+                <td>
+                    <div class='d-flex justify-content-around'>
+                        <!-- delete button -->
+                        <div data-toggle='tooltip' title='Delete' data-placement='top'>
+                            <button type="button" class="btn btn-danger btn-sm delete-btn">
+                                <i class="far fa-trash-alt "></i>
+                            </button>
+                        </div>
 
-                <!-- edit button -->
-                <div data-toggle='tooltip' title='Edit' data-placement="top">
-                    <a class="btn btn-success btn-sm editBtn" href='/houses/{{house_id}}'>
-                        <i class="fas fa-edit"></i>
-                    </a>
-                </div>
-            </div>
-        </td>
-
-        </tr>
-        {{/each}}
+                        <!-- edit button -->
+                        <div data-toggle='tooltip' title='Edit' data-placement="top">
+                            <a class="btn btn-success btn-sm editBtn" href='/houses/{{house_id}}'>
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
     </table>
 </div>
 
@@ -67,10 +67,10 @@
                     <div class="form-group">
                         <label for='head'>Head</label>
                         <select name="head" class='custom-select'>
-                        {{#each characters}}
-                        <option value="{{id}}">{{fname}} {{lname}}</option>
-                        {{/each}}
-                    </select>
+                            {{#each characters}}
+                            <option value="{{id}}">{{fname}} {{lname}}</option>
+                            {{/each}}
+                        </select>
                         <option value=''>none</option>
                     </div>
 
@@ -92,3 +92,34 @@
         </div>
     </div>
 </div>
+
+<script type='text/x-handlebars-template'>
+    <tbody>
+        \{{#each houses}}
+        <tr id=\{{house_id}}>
+            <td>\{{house_name}}</td>
+            <td>\{{sigil}}</td>
+            <td>\{{fname}} \{{lname}}</td>
+            <td>\{{status}}</td>
+            <!--\ delete & edit buttons -->
+            <td>
+                <div class='d-flex justify-content-around'>
+                    <!-- delete button -->
+                    <div data-toggle='tooltip' title='Delete' data-placement='top'>
+                        <button type="button" class="btn btn-danger btn-sm delete-btn">
+                            <i class="far fa-trash-alt "></i>
+                        </button>
+                    </div>
+        
+                    <!-- edit button -->
+                    <div data-toggle='tooltip' title='Edit' data-placement="top">
+                        <a class="btn btn-success btn-sm editBtn" href='/houses/\{{house_id}}'>
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    \{{/each}}
+    </tbody>
+</script>

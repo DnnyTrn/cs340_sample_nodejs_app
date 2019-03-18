@@ -77,7 +77,6 @@ module.exports = (function() {
 		function complete() {
 			callbackCount++;
 			if (callbackCount >= 4) {
-				//adding more get functions increase this number!!
 				res.render("characters", context);
 			}
 		}
