@@ -127,7 +127,7 @@ module.exports = (function() {
 		var context = {};
 		context.jsscripts = [
 			"selectedCharacter.js",
-			"selectedStatus.js",
+			"selectedstatus.js",
 			"updatehouse.js"
 		];
 		var mysql = req.app.get("mysql");
