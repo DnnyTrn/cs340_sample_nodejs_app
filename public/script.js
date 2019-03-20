@@ -25,7 +25,7 @@ app.addRow = function() {
 				data: add_form.serialize(),
 				success: function(result, success, xhr) {
 					// window.location.replace("." + this.url);
-					console.log(result);
+					// console.log(result);
 					app.displayNewTable(result);
 				}
 			});
@@ -72,7 +72,7 @@ app.deleteRow = function() {
 			type: "DELETE",
 			data: { id },
 			success: (results, success, xhr) => {
-				console.log("deleted row with id: " + id);
+				// console.log("deleted row with id: " + id);
 				$(this)
 					.closest("tr")
 					.fadeOut(500, function() {
@@ -106,7 +106,7 @@ app.search = function() {
 						encodeURI(search_input),
 					type: "GET",
 					success: (result, success, xhr) => {
-						console.log(result);
+						// console.log(result);
 						app.displayNewTable(result);
 					}
 				})
