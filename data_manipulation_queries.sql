@@ -32,6 +32,7 @@ DELETE FROM got_characters WHERE id = ?
 -- select all species (to fill drop down table)
 SELECT id AS species_id, name AS species_name FROM got_species
 
+
 -- got_house, got_house_status
 --select all houses with column names (get request)
 SELECT h.id AS house_id, name AS house_name, sigil, c.fname, c.lname , hs.status FROM got_house h 
@@ -55,6 +56,7 @@ UPDATE got_house SET name = ?, sigil = ?, head = ?, status_id = ? WHERE id = ?
 
 -- delete house with house id (delete request)
 DELETE FROM got_house WHERE id = ?
+
 
 -- got_locations, got_continents
 -- select locations with their column names (populate table for get request)
@@ -80,6 +82,7 @@ UPDATE got_locations SET name = ?, region = ?, continent_id = ? WHERE id = ?;
 
 -- delete location with location id (delete request)
 DELETE FROM got_locations WHERE id = ?
+
 
 -- got_events
 -- select event with column names (get request)
@@ -111,12 +114,21 @@ LEFT JOIN got_events e ON e.id = ec.event_id
 --associate a character with an event (post)
 INSERT INTO got_events_characters (event_id, character_id) VALUES (?,?)
 
+-- used to populate drop down and render update-eventCharacter page
+SELECT id, fname, lname FROM got_characters
+SELECT id as fromEvent_id, name FROM got_events
+SELECT id, event_id, character_id FROM got_events_characters WHERE id = ?
 
+-- add new event character association
+INSERT INTO got_events_characters (event_id, character_id) VALUES (?,?)
 
+-- put request to update event_character
+UPDATE got_events_characters SET event_id = ?, character_id = ? WHERE id = ?
 
+-- search function by event name
+SELECT ec.id as combined_id, e.name as event_name, c.fname, c.lname FROM got_events_characters ec 
+ left join got_characters c on c.id = ec.character_id 
+left join got_events e on e.id = ec.event_id where e.name like ?%;
 
-
-
---delete event & character association with row id
+-- delete event_character by id
 DELETE FROM got_events_characters WHERE id = ?
-
