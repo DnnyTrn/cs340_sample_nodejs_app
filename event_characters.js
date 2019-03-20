@@ -45,7 +45,6 @@ module.exports = function() {
     /*Display all events and their characters.*/
 
     router.get('/', function (req, res) {
-        console.log('get/')
         var callbackCount = 0;
         var context = {};
         var mysql = req.app.get('mysql');
@@ -64,22 +63,15 @@ module.exports = function() {
     });
 
     router.post('/', function (req, res) {
-        console.log('/post')
-        console.log(req.body)
         var mysql = req.app.get('mysql');
         var sql = 'INSERT INTO got_events_characters (event_id, character_id) VALUES (?,?)';
         var inserts = [req.body.event_id, req.body.character_id];
 
-
         convertEmptyStringToNull(inserts);
-        console.log('inserts', inserts);
-
 
         sql = mysql.pool.query(sql, inserts, function (error, results, field) {
             if (error) {
-                //Take this out for final
-                console.log(error)
-                res.write(JSON.stringify(error));
+                res.send(JSON.stringify(error));
                 res.end();
             }
             else {
@@ -91,10 +83,8 @@ module.exports = function() {
                     callbackCount++;
                     if(callbackCount >= 1){
                         res.send(context);
-                    }
-                    
+                    }   
                 }
-                // res.redirect('/event_characters');
             }
         })
     });
@@ -136,13 +126,6 @@ module.exports = function() {
 
     router.put('/:id', function (req, res) {
         var mysql = req.app.get('mysql');
-        console.log('put/:id')
-        console.log(req.body)
-        console.log(req.body.event_id)
-        console.log(req.body.character_id)
-        console.log(req.params.id)
-
-
         var sql = "UPDATE got_events_characters SET event_id = ?, character_id = ? WHERE id = ?";
         var inserts = [
             req.body.event_id,
@@ -150,12 +133,10 @@ module.exports = function() {
             req.params.id
         ];
 
-        console.log(sql);
         convertEmptyStringToNull(inserts);
         sql = mysql.pool.query(sql, inserts, function (error, results, fields) {
             if (error) {
-                console.log(error)
-                res.write(JSON.stringify(error));
+                res.send(JSON.stringify(error));
                 res.end();
             } else {
                 res.status(200);
@@ -165,7 +146,6 @@ module.exports = function() {
     });
 
     router.get("/search/:name", function (req, res) {
-        console.log("search event_characters name: " + req.params.name);
         var callbackCount = 0;
         var context = {};
         var mysql = req.app.get("mysql");
@@ -187,7 +167,6 @@ module.exports = function() {
             + ' left join got_events e on e.id = ec.event_id where e.name like ' +
             mysql.pool.escape(req.params.name + "%") +
             " order by ec.id DESC";
-        console.log(sql);
         mysql.pool.query(sql, function (err, results, fields) {
             if (err) {
                 res.write(JSON.stringify(err));
@@ -199,7 +178,6 @@ module.exports = function() {
 
     /* Route to delete a person, simply returns a 202 upon success. Ajax will handle this. */
     router.delete("/", function (req, res) {
-        console.log("delete id: " + req.body.id);
         var mysql = req.app.get("mysql");
         var sql = "DELETE FROM got_events_characters WHERE id = ?";
         var inserts = [req.body.id];
